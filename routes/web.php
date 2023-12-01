@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KeyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    $api = new \App\Services\OutlineVPN\ApiClient();
+Route::resource('keys', KeyController::class);
 
-    dd(collect($api->keys()->result->accessKeys)->map(function($key) {
-        return \App\Services\OutlineVPN\AccessKey::fromObject($key);
-    }));
-});

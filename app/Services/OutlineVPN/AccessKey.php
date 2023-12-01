@@ -2,8 +2,6 @@
 
 namespace App\Services\OutlineVPN;
 
-use stdClass;
-
 class AccessKey
 {
     public string $id;
@@ -12,9 +10,9 @@ class AccessKey
     public int $port;
     public string $method;
     public string $accessUrl;
-    public stdClass $dataLimit;
+    public ?int $dataLimitInBytes;
 
-    public static function fromObject(stdClass $input): static
+    public static function fromObject(?object $input): static
     {
         $key = new static;
         $key->id = $input->id;
@@ -23,7 +21,11 @@ class AccessKey
         $key->port = $input->port;
         $key->method = $input->method;
         $key->accessUrl = $input->accessUrl;
-        $key->dataLimit = $input->dataLimit;
+
+        if (isset($input->dataLimit))
+            $key->dataLimitInBytes = $input->dataLimit->bytes;
+        else
+            $key->dataLimitInBytes = null;
 
         return $key;
     }

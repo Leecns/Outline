@@ -1,0 +1,12 @@
+body, input, textarea {
+    font-family: 'Nunito', sans-serif;
+}
+
+html, body {
+    color-scheme: light dark;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
