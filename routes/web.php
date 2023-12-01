@@ -14,5 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $api = new \App\Services\OutlineVPN\ApiClient();
+
+    dd(collect($api->keys()->result->accessKeys)->map(function($key) {
+        return \App\Services\OutlineVPN\AccessKey::fromObject($key);
+    }));
 });
