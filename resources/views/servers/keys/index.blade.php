@@ -2,7 +2,7 @@
 
 @section('content')
     <h3>{{ $server->name }} <sub>{{ $server->version }}</sub></h3>
-    <section>
+    <section class="d-flex gap-2">
         <div>{{ __('Server ID') }}: {{ $server->serverId }}</div>
         <div>{{ __('Is metrics enabled') }}: {{ $server->metricsEnabled ? __('YES') : __('NO') }}</div>
         <div>{{ __('Creation date') }}: {{ now()->parse($server->createdTimestampMs / 1000) }}</div>
