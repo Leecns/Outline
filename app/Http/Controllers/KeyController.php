@@ -49,6 +49,42 @@ class KeyController extends Controller
         // TODO: Store the key in the database
         $outlineAccessKey = AccessKey::fromObject($newKeyRequest->result);
 
+        $renameRequest = api()->renameKey($outlineAccessKey->id, $request->name);
+        if (!$renameRequest->succeed) {
+            $renameRequest->throw();
+        }
+
         return redirect()->route('keys.index');
+    }
+
+    public function edit()
+    {
+        return view('servers.keys.edit');
+    }
+
+    public function update(Request $request, int $key)
+    {
+        $request->validate([
+            'name' => 'required|string|max:64'
+        ]);
+
+        $renameRequest = api()->renameKey($key, $request->name);
+        if (!$renameRequest->succeed) {
+            $renameRequest->throw();
+        }
+
+        return redirect()->route('keys.index');
+    }
+
+    public function destroy(int $key)
+    {
+        $deleteKeyRequest = api()->deleteKey($key);
+
+        if ($deleteKeyRequest->succeed) {
+            // TODO: Delete key from database
+            return redirect()->route('keys.index');
+        }
+
+        $deleteKeyRequest->throw();
     }
 }
