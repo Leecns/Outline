@@ -2,7 +2,7 @@
 
 @section('content')
     <h3>{{ __('New key') }}</h3>
-    <form action="{{ route('keys.store') }}" method="post">
+    <form action="{{ route('servers.keys.store', $server->id) }}" method="post">
         @csrf
 
         <label>

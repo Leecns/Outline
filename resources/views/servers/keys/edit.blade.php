@@ -2,7 +2,7 @@
 
 @section('content')
     <h3>{{ __('Editing :key', ['key' => $key->name]) }}</h3>
-    <form action="{{ route('keys.update', $key->id) }}" method="post">
+    <form action="{{ route('servers.keys.update', [$server->id, $key->id]) }}" method="post">
         @csrf
         @method('PATCH')
 

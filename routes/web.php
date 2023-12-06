@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\KeyController;
+use App\Http\Controllers\ServerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('keys', KeyController::class);
+Route::resource('servers', ServerController::class);
+Route::resource('servers.keys', KeyController::class);
 

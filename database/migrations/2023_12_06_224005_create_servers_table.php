@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('servers', function (Blueprint $table) {
             $table->id();
+            $table->string('api_url');
+            $table->string('api_cert_sha256');
             $table->string('api_id');
             $table->string('name');
             $table->string('version', 10);
             $table->string('hostname_for_new_access_keys');
             $table->unsignedInteger('port_for_new_access_keys');
-            $table->boolean('metrics_status');
-            $table->timestamps('api_created_at');
+            $table->boolean('is_metrics_enabled');
+            $table->boolean('is_enabled')->default(true);
+            $table->timestamp('api_created_at');
             $table->timestamps();
         });
     }

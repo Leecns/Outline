@@ -1,7 +1,8 @@
 <?php
 
 if (! function_exists('api')) {
-    function api() {
-        return app(\App\Services\OutlineVPN\ApiClient::class);
+    function api(string $apiUrl): \App\Services\OutlineVPN\ApiClient
+    {
+        return new \App\Services\OutlineVPN\ApiClient($apiUrl);
     }
 }

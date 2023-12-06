@@ -8,11 +8,8 @@ use Illuminate\Support\Facades\Http;
 
 class ApiClient
 {
-    protected string $apiUrl;
-
-    public function __construct()
+    public function __construct(protected string $apiUrl)
     {
-        $this->apiUrl = config('outline.api_url');
     }
 
     public function server(): ApiResponse
@@ -112,7 +109,9 @@ class ApiClient
             ->withHeaders([
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-            ])->withoutVerifying();
+            ])
+            ->timeout(5)
+            ->withoutVerifying();
     }
 
     protected function createApiResponse(\Illuminate\Http\Client\Response $response): ApiResponse
