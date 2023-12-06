@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AccessKey extends Model
 {
     protected $fillable = [
+        'server_id',
         'api_id',
         'name',
         'password',

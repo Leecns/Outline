@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('access_keys', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('server_id')->references('id')->on('servers')->cascadeOnDelete();
             $table->unsignedInteger('api_id');
             $table->string('name');
             $table->string('password');

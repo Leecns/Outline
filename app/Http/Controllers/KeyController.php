@@ -16,7 +16,7 @@ class KeyController extends Controller
 
         if ($serverInfoRequest->succeed) {
             $server = $serverInfoRequest->result;
-
+dd($server);
             $keys = AccessKey::latest()->paginate();
 
             return view('servers.keys.index', compact('server', 'keys'));
