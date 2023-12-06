@@ -43,7 +43,14 @@ class AccessKey extends Model
             $accessKey->data_limit = $outlineAccessKey->dataLimitInBytes;
             $accessKey->access_url = $outlineAccessKey->accessUrl;
         });
-        
+
+        static::updating(function(AccessKey $accessKey) {
+            $renameRequest = api()->renameKey($accessKey->api_id, $accessKey->name);
+
+            if (! $renameRequest->succeed)
+                $renameRequest->throw();
+        });
+
         static::deleting(function(AccessKey $accessKey) {
             $deleteKeyRequest = api()->deleteKey($accessKey->api_id);
 

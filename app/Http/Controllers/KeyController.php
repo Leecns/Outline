@@ -46,21 +46,22 @@ class KeyController extends Controller
         return redirect()->route('keys.index');
     }
 
-    public function edit()
+    public function edit(AccessKey $key)
     {
-        return view('servers.keys.edit');
+        return view('servers.keys.edit', compact('key'));
     }
 
-    public function update(Request $request, int $key)
+    public function update(Request $request, AccessKey $key)
     {
         $request->validate([
             'name' => 'required|string|max:64'
         ]);
 
-        $renameRequest = api()->renameKey($key, $request->name);
-        if (!$renameRequest->succeed) {
-            $renameRequest->throw();
-        }
+        DB::transaction(function () use ($request, $key) {
+            $key->update([
+                'name' => $request->name
+            ]);
+        });
 
         return redirect()->route('keys.index');
     }

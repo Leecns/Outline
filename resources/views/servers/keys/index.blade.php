@@ -57,7 +57,7 @@
                             <div class="card-text py-2 mb-2">
                                 <code>{{ $key->access_url }}</code>
                             </div>
-                            <a href="#" class="btn btn-outline-secondary text-uppercase">{{ __('Rename') }}</a>
+                            <a href="{{ route('keys.edit', $key->id) }}" class="btn btn-outline-secondary text-uppercase">{{ __('Edit') }}</a>
                             <form method="post" action="{{ route('keys.destroy', $key->id) }}">
                                 @csrf
                                 @method('DELETE')

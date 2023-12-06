@@ -7,7 +7,7 @@
 
         <label>
             <span>{{ __('Key name') }}:</span>
-            <input type="text" name="name" required>
+            <input type="text" name="name" required value="{{ old('name') }}">
         </label>
 
         <button>{{ __('Create') }}</button>
