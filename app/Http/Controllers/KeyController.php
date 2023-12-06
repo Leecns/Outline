@@ -11,20 +11,15 @@ class KeyController extends Controller
 {
     public function index()
     {
+        // TODO: sync the existing keys
         $serverInfoRequest = api()->server();
 
         if ($serverInfoRequest->succeed) {
             $server = $serverInfoRequest->result;
 
-            $keysRequest = api()->keys();
+            $keys = AccessKey::latest()->paginate();
 
-            if ($keysRequest->succeed) {
-                $keys = collect($keysRequest->result->accessKeys)->map(fn ($key) => ApiAccessKey::fromObject($key));
-
-                return view('servers.keys.index', compact('server', 'keys'));
-            }
-
-            $keysRequest->throw();
+            return view('servers.keys.index', compact('server', 'keys'));
         }
 
         $serverInfoRequest->throw();
@@ -70,15 +65,12 @@ class KeyController extends Controller
         return redirect()->route('keys.index');
     }
 
-    public function destroy(int $key)
+    public function destroy(AccessKey $key)
     {
-        $deleteKeyRequest = api()->deleteKey($key);
+        DB::transaction(function () use ($key) {
+            $key->delete();
+        });
 
-        if ($deleteKeyRequest->succeed) {
-            // TODO: Delete key from database
-            return redirect()->route('keys.index');
-        }
-
-        $deleteKeyRequest->throw();
+        return redirect()->route('keys.index');
     }
 }

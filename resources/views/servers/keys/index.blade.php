@@ -55,7 +55,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $key->name ?: "Key-$key->id" }}</h5>
                             <div class="card-text py-2 mb-2">
-                                <code>{{ $key->accessUrl }}</code>
+                                <code>{{ $key->access_url }}</code>
                             </div>
                             <a href="#" class="btn btn-outline-secondary text-uppercase">{{ __('Rename') }}</a>
                             <form method="post" action="{{ route('keys.destroy', $key->id) }}">
