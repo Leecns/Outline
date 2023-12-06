@@ -2,7 +2,7 @@
 
 namespace App\Services\OutlineVPN;
 
-class AccessKey
+class ApiAccessKey
 {
     public string $id;
     public string $name;

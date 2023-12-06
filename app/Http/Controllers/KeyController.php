@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\OutlineVPN\AccessKey;
+use App\Models\AccessKey;
+use App\Services\OutlineVPN\ApiAccessKey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KeyController extends Controller
 {
@@ -17,7 +19,7 @@ class KeyController extends Controller
             $keysRequest = api()->keys();
 
             if ($keysRequest->succeed) {
-                $keys = collect($keysRequest->result->accessKeys)->map(fn ($key) => AccessKey::fromObject($key));
+                $keys = collect($keysRequest->result->accessKeys)->map(fn ($key) => ApiAccessKey::fromObject($key));
 
                 return view('servers.keys.index', compact('server', 'keys'));
             }
@@ -39,20 +41,12 @@ class KeyController extends Controller
             'name' => 'required|string|max:64'
         ]);
 
-        $newKeyRequest = api()->createKey();
-
-        if (! $newKeyRequest->succeed) {
-            $newKeyRequest->throw();
-        }
-
-
-        // TODO: Store the key in the database
-        $outlineAccessKey = AccessKey::fromObject($newKeyRequest->result);
-
-        $renameRequest = api()->renameKey($outlineAccessKey->id, $request->name);
-        if (!$renameRequest->succeed) {
-            $renameRequest->throw();
-        }
+        DB::transaction(function() use ($request) {
+            AccessKey::create([
+                'name' => $request->name,
+                // Todo: add expire time
+            ]);
+        });
 
         return redirect()->route('keys.index');
     }
