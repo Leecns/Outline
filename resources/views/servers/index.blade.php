@@ -1,12 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-
     <section class="mt-5 px-5">
         <header class="d-flex justify-content-between align-items-center">
             <h2 class="text-center text-uppercase">{{ __('Your Servers') }}</h2>
 
-            <a href="{{ route('servers.create') }}" class="btn btn-light text-uppercase">{{ __('Create') }}</a>
+            <a href="{{ route('servers.create') }}" class="btn btn-light text-uppercase">{{ __('Add') }}</a>
         </header>
 
         <search class="mx-auto my-3">

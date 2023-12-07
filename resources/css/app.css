@@ -10,11 +10,12 @@ body {
     margin: 0;
     padding: 0;
 
-    background-image: linear-gradient(to bottom, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+    background-image: linear-gradient(to top, #40454f, #41485b, #454a66, #4c4b70, #564c79, #524977, #4d4774, #494472, #373d63, #283552, #1e2d41, #182430);
+    background-attachment: fixed;
 }
 
 .overlay {
-    inline-size: 100vw;
+    inline-size: 100%;
     min-block-size: 100vh;
 
     background-color: rgba(26, 32, 44, 0.48);
