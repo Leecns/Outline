@@ -9,4 +9,64 @@ html, body {
 body {
     margin: 0;
     padding: 0;
+
+    background-image: linear-gradient(to bottom, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+}
+
+.overlay {
+    inline-size: 100vw;
+    min-block-size: 100vh;
+
+    background-color: rgba(26, 32, 44, 0.48);
+}
+
+search {
+    background-color: rgba(11, 17, 28, 0.48);
+    backdrop-filter: blur(16px);
+
+    border-radius: 2rem;
+    padding-inline: 1rem;
+
+    inline-size: fit-content;
+}
+
+search input {
+    background: transparent;
+    border: none;
+    padding: 1rem;
+}
+
+search button {
+    background: transparent;
+    border: none;
+    padding: 1rem;
+}
+
+search form .search-icon {
+    transform: rotate(270deg);
+}
+
+.servers .server-card {
+    background-color: rgba(11, 17, 28, 0.48);
+    backdrop-filter: blur(16px);
+
+    max-inline-size: 320px;
+    inline-size: 100%;
+}
+
+.servers .location-flag {
+    user-select: none;
+    pointer-events: none;
+}
+
+.servers .ip {
+    background-color: rgba(11, 17, 28, 0.48);
+    backdrop-filter: blur(16px);
+    inline-size: fit-content;
+    padding: 0.25rem 1rem;
+    border-radius: 2rem;
+}
+
+.servers .edit-action {
+    backdrop-filter: blur(16px);
 }
