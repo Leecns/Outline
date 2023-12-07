@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('hostname_for_new_access_keys');
             $table->unsignedInteger('port_for_new_access_keys');
             $table->boolean('is_metrics_enabled');
-            $table->boolean('is_enabled')->default(true);
+            $table->boolean('is_available')->default(true);
             $table->timestamp('api_created_at');
             $table->timestamps();
         });

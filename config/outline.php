@@ -4,14 +4,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | API URL
+    | Server Availability Check Timeout
     |--------------------------------------------------------------------------
     |
-    | This configuration specifies the management API URL for an Outline server.
     |
     */
 
-    'api_url' => env('OUTLINE_API_URL'),
+    'server_availability_check_timeout' => env('OUTLINE_SERVER_AVAILABILITY_CHECK_TIMEOUT', 5),
 
     /*
     |--------------------------------------------------------------------------

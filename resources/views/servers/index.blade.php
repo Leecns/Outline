@@ -5,7 +5,11 @@
 
     <ul>
         @foreach($servers as $server)
-            <li><a href="{{ route('servers.keys.index', $server->id) }}">{{ $server->name }}</a></li>
+            @if ($server->is_available)
+                <li><a href="{{ route('servers.keys.index', $server->id) }}">{{ $server->name }}</a></li>
+            @else
+                <li>{{ $server->name }} ({{ __('Not Available') }})</li>
+            @endif
         @endforeach
     </ul>
 @endsection

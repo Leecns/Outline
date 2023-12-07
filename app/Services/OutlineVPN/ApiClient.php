@@ -110,7 +110,7 @@ class ApiClient
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
             ])
-            ->timeout(5)
+            ->timeout(config('outline.server_availability_check_timeout'))
             ->withoutVerifying();
     }
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\OutlineVPN\ApiAccessKey;
+use App\Services\OutlineVPN\ApiClient;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -27,7 +28,7 @@ class AccessKey extends Model
     protected static function booted(): void
     {
         static::creating(function(AccessKey $accessKey) {
-            $api = api($accessKey->server->api_url);
+            $api = new ApiClient($accessKey->server->api_url);
             $newKeyRequest = $api->createKey();
 
             if (! $newKeyRequest->succeed)
@@ -48,14 +49,16 @@ class AccessKey extends Model
         });
 
         static::updating(function(AccessKey $accessKey) {
-            $renameRequest = api($accessKey->server->api_url)->renameKey($accessKey->api_id, $accessKey->name);
+            $api = new ApiClient($accessKey->server->api_url);
+            $renameRequest = $api->renameKey($accessKey->api_id, $accessKey->name);
 
             if (! $renameRequest->succeed)
                 $renameRequest->throw();
         });
 
         static::deleting(function(AccessKey $accessKey) {
-            $deleteKeyRequest = api($accessKey->server->api_url)->deleteKey($accessKey->api_id);
+            $api = new ApiClient($accessKey->server->api_url);
+            $deleteKeyRequest = $api->deleteKey($accessKey->api_id);
 
             if (! $deleteKeyRequest->succeed) {
                 $deleteKeyRequest->throw();

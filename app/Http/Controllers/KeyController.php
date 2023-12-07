@@ -11,6 +11,10 @@ class KeyController extends Controller
 {
     public function index(Server $server)
     {
+        if (! $server->is_available) {
+            return redirect()->route('servers.index');
+        }
+
         // TODO: sync the existing keys
         $keys = $server->keys()->latest()->paginate();
 
@@ -20,11 +24,19 @@ class KeyController extends Controller
 
     public function create(Server $server)
     {
+        if (! $server->is_available) {
+            return redirect()->route('servers.index');
+        }
+
         return view('servers.keys.create', compact('server'));
     }
 
     public function store(Request $request, Server $server)
     {
+        if (! $server->is_available) {
+            return redirect()->route('servers.index');
+        }
+
         $request->validate([
             'name' => 'required|string|max:64'
         ]);
@@ -41,11 +53,19 @@ class KeyController extends Controller
 
     public function edit(Server $server, AccessKey $key)
     {
+        if (! $server->is_available) {
+            return redirect()->route('servers.index');
+        }
+
         return view('servers.keys.edit', compact('server', 'key'));
     }
 
     public function update(Request $request, Server $server, AccessKey $key)
     {
+        if (! $server->is_available) {
+            return redirect()->route('servers.index');
+        }
+
         $request->validate([
             'name' => 'required|string|max:64'
         ]);
@@ -61,6 +81,10 @@ class KeyController extends Controller
 
     public function destroy(Server $server, AccessKey $key)
     {
+        if (! $server->is_available) {
+            return redirect()->route('servers.index');
+        }
+
         DB::transaction(function () use ($server, $key) {
             $server->keys()->find($key->id)->delete();
         });

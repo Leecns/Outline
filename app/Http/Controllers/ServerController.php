@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Server;
 use Illuminate\Http\Request;
+use Throwable;
 
 class ServerController extends Controller
 {
@@ -27,10 +28,15 @@ class ServerController extends Controller
 
         $data = json_decode($request->api_url_and_cert_sha256);
 
-        Server::create([
-            'api_url' => $data->apiUrl,
-            'api_cert_sha256' => $data->certSha256,
-        ]);
+        try {
+            Server::create([
+                'api_url' => $data->apiUrl,
+                'api_cert_sha256' => $data->certSha256,
+            ]);
+        } catch (Throwable $exception) {
+            // TODO: report to sentry
+            return back()->withErrors([ 'message' => __('Could not create new server.') ]);
+        }
 
         return redirect()->route('servers.index');
     }

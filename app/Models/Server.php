@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Services\OutlineVPN\ApiClient;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Throwable;
 
 class Server extends Model
 {
@@ -16,20 +18,21 @@ class Server extends Model
         'hostname_for_new_access_keys',
         'port_for_new_access_keys',
         'is_metrics_enabled',
-        'is_enabled',
+        'is_available',
         'api_created_at',
     ];
 
     protected $casts = [
         'api_created_at' => 'datetime',
         'is_metrics_enabled' => 'boolean',
-        'is_enabled' => 'boolean',
+        'is_available' => 'boolean',
     ];
 
     protected static function booted(): void
     {
         static::creating(function(Server $server) {
-            $serverInfoRequest = api($server->api_url)->server();
+            $api = new ApiClient($server->api_url);
+            $serverInfoRequest = $api->server();
 
             if (! $serverInfoRequest->succeed)
                 $serverInfoRequest->throw();
@@ -40,25 +43,31 @@ class Server extends Model
         });
 
         static::retrieved(function(Server $server) {
-            $maxRetry = 3;
-            $try = 0;
+            try {
+                $api = new ApiClient($server->api_url);
+                $maxRetry = 3;
+                $try = 0;
 
-            do {
-                $serverInfoRequest = api($server->api_url)->server();
+                do {
+                    try {
+                        $serverInfoRequest = $api->server();
+                        $serverInfo = $serverInfoRequest->result;
 
-                if ($serverInfoRequest->succeed) {
-                    $serverInfo = $serverInfoRequest->result;
+                        static::mapApiResult($server, $serverInfo);
 
-                    static::mapApiResult($server, $serverInfo);
+                        break;
+                    } catch (Throwable $_) {
+                        $try++;
+                    }
+                } while ($try < $maxRetry);
 
-                    break;
-                } else {
-                    $try++;
-                }
-            } while ($try < $maxRetry);
-
-            $server->is_enabled = $try >= $maxRetry;
-            $server->saveQuietly();
+                $server->is_available = $try < $maxRetry;
+            } catch (Throwable $exception) {
+                $server->is_available = false;
+                // TODO: report error to sentry
+            } finally {
+                $server->saveQuietly();
+            }
         });
     }
 
