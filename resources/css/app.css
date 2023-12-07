@@ -53,6 +53,9 @@ search form .search-icon {
 
     max-inline-size: 320px;
     inline-size: 100%;
+
+    text-decoration: none;
+    color: inherit;
 }
 
 .servers .location-flag {

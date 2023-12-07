@@ -5,7 +5,10 @@
         <header class="d-flex justify-content-between align-items-center">
             <h2 class="text-center text-uppercase">{{ __('Your Servers') }}</h2>
 
-            <a href="{{ route('servers.create') }}" class="btn btn-light text-uppercase">{{ __('Add') }}</a>
+            <a href="{{ route('servers.create') }}" class="btn btn-light text-uppercase">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-dasharray="18" stroke-dashoffset="18" stroke-linecap="round" stroke-width="2"><path d="M12 5V19"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.3s" values="18;0"/></path><path d="M5 12H19"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="18;0"/></path></g></svg>
+                <span>{{ __('Add') }}</span>
+            </a>
         </header>
 
         <search class="mx-auto my-3">
@@ -30,17 +33,15 @@
         <section class="servers d-flex flex-wrap justify-content-center gap-3">
             @foreach($servers as $server)
                 @if ($server->is_available)
-                    <section class="server-card rounded-3 pb-0 pt-3">
+                    <a href="{{ route('servers.keys.index', $server->id) }}" class="d-grid gap-2 server-card rounded-3 p-3">
                         <section class="text-center">
                             <img src="https://img.icons8.com/?size=128&id=v8VaWVgXmNCx&format=png" alt="Location flag" class="location-flag"/>
                         </section>
                         <section class="text-center">{{ $server->name }}</section>
                         {{-- TODO: change this to original_hostname --}}
-                        <section class="ip mx-auto mt-2 mb-3">{{ $server->hostname_for_new_access_keys }}</section>
-                        <section class="actions text-uppercase">
-                            <a href="" class="btn p-2 w-100 text-uppercase edit-action">{{ __('Edit') }}</a>
-                        </section>
-                    </section>
+                        <section class="ip mx-auto">{{ $server->hostname_for_new_access_keys }}</section>
+                        <section class="ip mx-auto">{{ $server->keys()->count() }} <span>{{ str('Access Key')->plural($server->keys()->count()) }}</span></section>
+                    </a>
                 @else
                     <li>{{ $server->name }} ({{ __('Not Available') }})</li>
                 @endif
