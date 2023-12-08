@@ -10,7 +10,7 @@ class ServerController extends Controller
 {
     public function index()
     {
-        $servers = Server::latest()->paginate();
+        $servers = Server::latest()->get();
 
         return view('servers.index', compact('servers'));
     }

@@ -10,20 +10,29 @@ body {
     margin: 0;
     padding: 0;
 
-    background-image: linear-gradient(to top, #40454f, #41485b, #454a66, #4c4b70, #564c79, #524977, #4d4774, #494472, #373d63, #283552, #1e2d41, #182430);
     background-attachment: fixed;
+}
+
+::placeholder {
+    color: inherit;
+    opacity: 0.48;
 }
 
 .overlay {
     inline-size: 100%;
     min-block-size: 100vh;
 
-    background-color: rgba(26, 32, 44, 0.48);
+    --opacity: 72%;
+
+    background-image: linear-gradient(to right top, hsla(325.88deg,52.58%,61.96%,var(--opacity)), hsla(310.5deg,41.67%,62.35%,var(--opacity)), hsla(286.48deg,40.11%,65.29%,var(--opacity)), hsla(262.19deg,48.36%,70.4%,var(--opacity)), hsla(240deg,54.2%,74.31%,var(--opacity)), hsla(222.24deg,72.06%,73.33%,var(--opacity)), hsla(211.71deg,84.83%,71.57%,var(--opacity)), hsla(203.92deg,91.08%,69.22%,var(--opacity)), hsla(196.4deg,98.85%,65.88%,var(--opacity)), hsla(190.11deg,100%,62.75%,var(--opacity)), hsla(184deg,94.74%,62.75%,var(--opacity)), hsla(176.15deg,95.12%,67.84%,var(--opacity)));
+    background-attachment: fixed;
+
+    backdrop-filter: opacity(0.32);
 }
 
 search {
     background-color: rgba(11, 17, 28, 0.48);
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(24px);
 
     border-radius: 2rem;
     padding-inline: 1rem;
@@ -34,13 +43,15 @@ search {
 search input {
     background: transparent;
     border: none;
-    padding: 1rem;
+    min-inline-size: 286px;
+
+    padding-block: 1rem;
+    padding-inline: 0.5rem 0;
+
 }
 
-search button {
-    background: transparent;
-    border: none;
-    padding: 1rem;
+search input:focus-visible {
+    outline: none;
 }
 
 search form .search-icon {
@@ -49,9 +60,9 @@ search form .search-icon {
 
 .servers .server-card {
     background-color: rgba(11, 17, 28, 0.48);
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(24px);
 
-    max-inline-size: 320px;
+    max-inline-size: 340px;
     inline-size: 100%;
 
     text-decoration: none;

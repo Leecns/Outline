@@ -3,7 +3,7 @@
 
 @include('includes.head')
 
-<body data-bs-theme="dark">
+<body data-bs-theme="dark" style="background-image: url('{{ asset('assets/images/world.jpg') }}')">
 
 <div class="overlay py-5">
     <div class="container ">

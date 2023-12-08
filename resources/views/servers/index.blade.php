@@ -26,7 +26,6 @@
                     </svg>
                 </label>
                 <input id="search" class="w-100" type="search" name="q" value="{{ request()->input('q') }}" placeholder="Name or IP..." />
-                <button>Search</button>
             </form>
         </search>
 
