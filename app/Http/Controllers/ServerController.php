@@ -8,11 +8,15 @@ use Throwable;
 
 class ServerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $servers = Server::latest()->get();
+        $numberOfServers = Server::count();
+        $servers = Server::when($request->has('q'), function($query) use ($request) {
+            $query->where('name', 'LIKE', "%$request->q%");
+//                ->orWhere('ip', 'LIKE', "%$request->q%"); // TODO: add ip field to server model
+        })->latest()->get();
 
-        return view('servers.index', compact('servers'));
+        return view('servers.index', compact('servers', 'numberOfServers'));
     }
 
     public function create()
