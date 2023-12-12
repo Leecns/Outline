@@ -60,6 +60,13 @@ class AccessKey extends Model
 
             if (! $renameRequest->succeed)
                 $renameRequest->throw();
+
+            $dataLimitRequest = $accessKey->data_limit ? 
+                $api->setDataLimitForKey($accessKey->api_id, $accessKey->data_limit) :
+                $api->removeDataLimitForKey($accessKey->api_id);
+
+            if (! $dataLimitRequest->succeed)
+                $dataLimitRequest->throw();
         });
 
         static::deleting(function(AccessKey $accessKey) {
