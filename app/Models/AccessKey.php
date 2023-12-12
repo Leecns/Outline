@@ -40,11 +40,17 @@ class AccessKey extends Model
             if (! $renameRequest->succeed)
                 $renameRequest->throw();
 
+            if ($accessKey->data_limit) {
+                $dataLimitRequest = $api->setDataLimitForKey($outlineAccessKey->id, $accessKey->data_limit);
+
+                if (! $dataLimitRequest->succeed)
+                    $dataLimitRequest->throw();
+            }
+
             $accessKey->api_id = $outlineAccessKey->id;
             $accessKey->password = $outlineAccessKey->password;
             $accessKey->method = $outlineAccessKey->method;
             $accessKey->port = $outlineAccessKey->port;
-            $accessKey->data_limit = $outlineAccessKey->dataLimitInBytes;
             $accessKey->access_url = $outlineAccessKey->accessUrl;
         });
 

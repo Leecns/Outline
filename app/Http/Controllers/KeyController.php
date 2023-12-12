@@ -38,13 +38,24 @@ class KeyController extends Controller
         }
 
         $request->validate([
-            'name' => 'required|string|max:64'
+            'name' => 'required|string|max:64',
+            'data_limit' => 'nullable|integer|min:1|max:100000000',
+            'data_limit_unit' => 'required_with:data_limit|in:KB,MB,GB',
+            'expires_at' => 'nullable|date_format:Y-m-d\TH:i',
         ]);
 
-        DB::transaction(function() use ($request, $server) {
+        $dataLimit = match($request->data_limit_unit) {
+            'KB' => $request->data_limit * 1024,
+            'MB' => $request->data_limit * pow(1024, 2),
+            'GB' => $request->data_limit * pow(1024, 3),
+            default => null
+        };
+
+        DB::transaction(function() use ($request, $server, $dataLimit) {
             $server->keys()->create([
                 'name' => $request->name,
-                // Todo: add expire time
+                'data_limit' => $dataLimit > 0 ? $dataLimit : null,
+                'expires_at' => $request->expires_at
             ]);
         });
 
