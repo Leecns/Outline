@@ -63,7 +63,7 @@
                             <td>{{ $server->name }}</td>
                             <td>{{ $server->hostname_or_ip }}</td>
                             <td><span class="badge bg-light text-dark">{{ $server->keys()->count() }}</span></td>
-                            <td>{{ format_bytes($server->total_usage_in_bytes) }}</td>
+                            <td>{{ format_bytes($server->total_data_usage) }}</td>
                             <td>
                                 @if ($server->is_available)
                                     <span class="badge bg-success text-dark">{{ __('Available') }}</span>

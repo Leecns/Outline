@@ -19,7 +19,7 @@ class Server extends Model
         'hostname_or_ip',
         'hostname_for_new_access_keys',
         'port_for_new_access_keys',
-        'total_usage_in_bytes',
+        'total_data_usage',
         'is_metrics_enabled',
         'is_available',
         'api_created_at',
@@ -158,6 +158,6 @@ class Server extends Model
         $server->port_for_new_access_keys = $apiResult->portForNewAccessKeys;
         $server->hostname_for_new_access_keys = $apiResult->hostnameForAccessKeys;
 
-        $server->total_usage_in_bytes = collect($metrics)->sum();
+        $server->total_data_usage = collect($metrics)->sum();
     }
 }
