@@ -60,7 +60,6 @@
                     @forelse($servers as $server)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $server->id }}</td>
                             <td>{{ $server->name }}</td>
                             <td>{{ $server->hostname_or_ip }}</td>
                             <td><span class="badge bg-light text-dark">{{ $server->keys()->count() }}</span></td>
