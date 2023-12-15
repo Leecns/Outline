@@ -55,14 +55,14 @@
 
                 <div>
                     <span class="opacity-50">
-                        <abbr title="{{ __('This port will be used to create new keys.') }}">{{ __('Port') }}</abbr>:
+                        <abbr title="{{ __('This port will be used for new keys.') }}">{{ __('Port') }}</abbr>:
                     </span>
                     <span class="badge bg-light text-dark">{{ $server->port_for_new_access_keys }}</span>
                 </div>
 
                 <div>
                     <span class="opacity-50">
-                        <abbr title="{{ __('This hostname will be used to create new keys.') }}">{{ __('Hostname') }}</abbr>:
+                        <abbr title="{{ __('This hostname will be used for new keys.') }}">{{ __('Hostname') }}</abbr>:
                     </span>
                     <span class="badge bg-light text-dark">{{ $server->hostname_for_new_access_keys }}</span>
                 </div>
