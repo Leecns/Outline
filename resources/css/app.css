@@ -1,3 +1,8 @@
+:root {
+    --qr-code-text: #5bb193;
+    --qr-code-bg: #212529;
+}
+
 body, input, textarea {
     font-family: 'Nunito', sans-serif;
 }
