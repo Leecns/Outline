@@ -28,7 +28,7 @@ class AccessKey extends Model
     protected static function booted(): void
     {
         static::creating(function(AccessKey $accessKey) {
-            $api = new ApiClient($accessKey->server->api_url);
+            $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $newKeyRequest = $api->createKey();
 
             if (! $newKeyRequest->succeed)
@@ -57,7 +57,7 @@ class AccessKey extends Model
         });
 
         static::updating(function(AccessKey $accessKey) {
-            $api = new ApiClient($accessKey->server->api_url);
+            $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $renameRequest = $api->renameKey($accessKey->api_id, $accessKey->name);
 
             if (! $renameRequest->succeed)
@@ -72,7 +72,7 @@ class AccessKey extends Model
         });
 
         static::deleting(function(AccessKey $accessKey) {
-            $api = new ApiClient($accessKey->server->api_url);
+            $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $deleteKeyRequest = $api->deleteKey($accessKey->api_id);
 
             if (! $deleteKeyRequest->succeed) {

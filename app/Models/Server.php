@@ -33,7 +33,7 @@ class Server extends Model
     protected static function booted(): void
     {
         static::creating(function(Server $server) {
-            $api = new ApiClient($server->api_url);
+            $api = new ApiClient($server->api_url, $server->api_cert_sha256);
             $serverInfoRequest = $api->server();
 
             if (! $serverInfoRequest->succeed)
@@ -45,7 +45,7 @@ class Server extends Model
         });
 
         static::updating(function(Server $server) {
-            $api = new ApiClient($server->api_url);
+            $api = new ApiClient($server->api_url, $server->api_cert_sha256);
 
             $nameUpdateRequest = $api->setServerName($server->name);
 
@@ -65,7 +65,7 @@ class Server extends Model
 
         static::retrieved(function(Server $server) {
             try {
-                $api = new ApiClient($server->api_url);
+                $api = new ApiClient($server->api_url, $server->api_cert_sha256);
                 $maxRetry = 3;
                 $try = 0;
 
@@ -79,7 +79,9 @@ class Server extends Model
                         static::mapApiResult($server, $serverInfo, $metrics);
 
                         break;
-                    } catch (Throwable $_) {
+                    } catch (Throwable $exception) {
+                        dd($exception);
+                        // TODO: report error to sentry
                         $try++;
                     }
                 } while ($try < $maxRetry);
