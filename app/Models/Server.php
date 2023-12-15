@@ -80,7 +80,6 @@ class Server extends Model
 
                         break;
                     } catch (Throwable $exception) {
-                        dd($exception);
                         // TODO: report error to sentry
                         $try++;
                     }
