@@ -2,6 +2,7 @@
     <nav class="navbar">
         <section class="container-fluid">
             <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('servers.index') }}">
+                <x-svg.app />
                 <strong class="text-uppercase">{{ config('app.name') }}</strong>
             </a>
 
