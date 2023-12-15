@@ -52,6 +52,7 @@
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('IP Address') }}</th>
                         <th>{{ __('Number of Keys') }}</th>
+                        <th>{{ __('Status') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -66,10 +67,13 @@
                             <td><span class="badge bg-light text-dark">{{ $server->keys()->count() }}</span></td>
                             <td>
                                 @if ($server->is_available)
-                                    <a href="{{ route('servers.keys.index', $server->id) }}" class="btn btn-sm btn-light">{{ __('Manage') }}</a>
+                                    <span class="badge bg-success text-dark">{{ __('Available') }}</span>
                                 @else
-                                    <span class="badge bg-danger">{{ __('Not Available') }}</span>
+                                    <span class="badge bg-danger text-dark">{{ __('Not Available') }}</span>
                                 @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('servers.keys.index', $server->id) }}" class="btn btn-sm btn-light">{{ __('Manage') }}</a>
                             </td>
                         </tr>
                     @empty

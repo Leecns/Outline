@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Server;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class ServerController extends Controller
@@ -41,6 +42,33 @@ class ServerController extends Controller
             // TODO: report to sentry
             return back()->withErrors([ 'message' => __('Could not create new server.') ]);
         }
+
+        return redirect()->route('servers.index');
+    }
+
+    public function edit(Server $server)
+    {
+        return view('servers.edit', compact('server'));
+    }
+
+    public function update(Request $request, Server $server)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'hostname_for_new_access_keys' => 'required|max:128',
+            'port_for_new_access_keys' => 'required|integer|min:1|max:65535',
+        ]);
+
+        DB::transaction(function() use ($validatedData, $server) {
+            $server->update($validatedData);
+        });
+
+        return redirect()->route('servers.keys.index', $server->id);
+    }
+
+    public function destroy(int $server)
+    {
+        Server::whereId($server)->delete();
 
         return redirect()->route('servers.index');
     }

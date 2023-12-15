@@ -42,6 +42,25 @@ class Server extends Model
             static::mapApiResult($server, $serverInfo);
         });
 
+        static::updating(function(Server $server) {
+            $api = new ApiClient($server->api_url);
+
+            $nameUpdateRequest = $api->setServerName($server->name);
+
+            if (! $nameUpdateRequest->succeed)
+                $nameUpdateRequest->throw();
+
+            $hostnameUpdateRequest = $api->setHostNameForNewKeys($server->hostname_for_new_access_keys);
+
+            if (! $hostnameUpdateRequest->succeed)
+                $hostnameUpdateRequest->throw();
+
+            $portUpdateRequest = $api->setPortForNewKeys($server->port_for_new_access_keys);
+
+            if (! $portUpdateRequest->succeed)
+                $portUpdateRequest->throw();
+        });
+
         static::retrieved(function(Server $server) {
             try {
                 $api = new ApiClient($server->api_url);

@@ -11,10 +11,6 @@ class KeyController extends Controller
 {
     public function index(Server $server)
     {
-        if (! $server->is_available) {
-            return redirect()->route('servers.index');
-        }
-
         // TODO: sync the existing keys
         $keys = $server->keys()->latest()->paginate();
 

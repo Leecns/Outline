@@ -19,7 +19,7 @@ class ApiClient
         return $this->createApiResponse($response);
     }
 
-    public function setHostName(string $hostnameOrIpAddress): ApiResponse
+    public function setHostNameForNewKeys(string $hostnameOrIpAddress): ApiResponse
     {
         $response = $this->http()->put('/server/hostname-for-access-keys', [
             'hostname' => $hostnameOrIpAddress,
@@ -37,7 +37,7 @@ class ApiClient
         return $this->createApiResponse($response);
     }
 
-    public function setKeyPort(int $port): ApiResponse
+    public function setPortForNewKeys(int $port): ApiResponse
     {
         $response = $this->http()->put('/server/port-for-new-access-keys', [
             'port' => $port
