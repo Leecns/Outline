@@ -48,7 +48,6 @@
                 <thead>
                     <tr>
                         <th>{{ __('#') }}</th>
-                        <th>{{ __('ID') }}</th>
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('Hostname or IP') }}</th>
                         <th>{{ __('Number of Keys') }}</th>
