@@ -18,6 +18,7 @@ class AccessKey extends Model
         'access_url',
         'port',
         'data_limit',
+        'data_usage',
         'expires_at'
     ];
 

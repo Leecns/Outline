@@ -77,9 +77,9 @@ class Server extends Model
 
                         $metrics = get_server_usage_metrics($api, $server->id);
 
-                        static::mapApiResult($server, $serverInfo, $metrics);
+                        static::mapApiResult($server, $serverInfo, (array)$metrics);
 
-                        $server->syncKeys($api);
+                        $server->syncKeys($api, $metrics);
 
                         break;
                     } catch (Throwable $exception) {
@@ -100,10 +100,13 @@ class Server extends Model
         });
     }
 
-    public function syncKeys(ApiClient $api = null): void
+    public function keys(): HasMany
     {
-        $api ??= new ApiClient($this->api_url, $this->api_cert_sha256);
+        return $this->hasMany(AccessKey::class);
+    }
 
+    private function syncKeys(ApiClient $api, object $metrics = null): void
+    {
         // Get the server keys
         $keysRequest = $api->keys();
         if (! $keysRequest->succeed)
@@ -115,10 +118,14 @@ class Server extends Model
         $localKeys = $this->keys;
 
         // Create missing keys & update existing keys
-        $serverKeys->each(function($serverKey) use ($localKeys) {
+        $serverKeys->each(function($serverKey) use ($localKeys, $metrics) {
             if ($localKey = $localKeys->first(fn ($localKey) => $localKey->api_id === $serverKey->id)) {
                 $localKey->name = $serverKey->name;
                 $localKey->data_limit = $serverKey->dataLimitInBytes;
+
+                if (isset($metrics->{$serverKey->id}))
+                    $localKey->data_usage = $metrics->{$serverKey->id};
+
                 $localKey->saveQuietly();
             } else {
                 $newLocalKey = new AccessKey();
@@ -141,11 +148,6 @@ class Server extends Model
 
             $localKey->deleteQuietly();
         });
-    }
-
-    public function keys(): HasMany
-    {
-        return $this->hasMany(AccessKey::class);
     }
 
     private static function mapApiResult(Server $server, object $apiResult, array $metrics = []): void

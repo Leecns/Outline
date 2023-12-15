@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('access_url');
             $table->unsignedInteger('port');
             $table->unsignedBigInteger('data_limit')->nullable();
+            $table->unsignedBigInteger('data_usage')->default(0);
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });

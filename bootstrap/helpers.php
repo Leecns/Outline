@@ -4,11 +4,12 @@ use App\Services\OutlineVPN\ApiClient;
 
 
 if (! function_exists('get_server_usage_metrics')) {
-    function get_server_usage_metrics(ApiClient $api, int $serverId): array
+    function get_server_usage_metrics(ApiClient $api, int $serverId): object
     {
         return cache()->remember("server-$serverId-metrics", now()->addMinute(), function() use ($api) {
             $usageRequest = $api->metricsTransfer();
-            return (array)$usageRequest->result->bytesTransferredByUserId;
+
+            return $usageRequest->result->bytesTransferredByUserId;
         });
     }
 }
