@@ -52,6 +52,10 @@
                     <span class="opacity-50">{{ __('Creation date') }}:</span>
                     <span class="badge bg-light text-dark">{{ $server->api_created_at }} ({{ $server->api_created_at->diffForHumans() }})</span>
                 </div>
+                <div>
+                    <span class="opacity-50">{{ __('Total usage') }}:</span>
+                    <span class="badge bg-light text-dark">{{ format_bytes($server->total_usage_in_bytes) }})</span>
+                </div>
 
                 <div>
                     <span class="opacity-50">
