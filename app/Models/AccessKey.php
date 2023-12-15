@@ -47,11 +47,13 @@ class AccessKey extends Model
                     $dataLimitRequest->throw();
             }
 
+            $encodedName = rawurlencode($accessKey->name);
+
             $accessKey->api_id = $outlineAccessKey->id;
             $accessKey->password = $outlineAccessKey->password;
             $accessKey->method = $outlineAccessKey->method;
             $accessKey->port = $outlineAccessKey->port;
-            $accessKey->access_url = $outlineAccessKey->accessUrl;
+            $accessKey->access_url = "$outlineAccessKey->accessUrl#$encodedName";
         });
 
         static::updating(function(AccessKey $accessKey) {
@@ -61,7 +63,7 @@ class AccessKey extends Model
             if (! $renameRequest->succeed)
                 $renameRequest->throw();
 
-            $dataLimitRequest = $accessKey->data_limit ? 
+            $dataLimitRequest = $accessKey->data_limit ?
                 $api->setDataLimitForKey($accessKey->api_id, $accessKey->data_limit) :
                 $api->removeDataLimitForKey($accessKey->api_id);
 
