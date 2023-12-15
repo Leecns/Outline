@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('api_id');
             $table->string('name');
             $table->string('version', 10);
+            $table->string('hostname_or_ip');
             $table->string('hostname_for_new_access_keys');
             $table->unsignedInteger('port_for_new_access_keys');
             $table->boolean('is_metrics_enabled');

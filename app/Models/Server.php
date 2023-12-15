@@ -15,6 +15,7 @@ class Server extends Model
         'api_id',
         'name',
         'version',
+        'hostname_or_ip',
         'hostname_for_new_access_keys',
         'port_for_new_access_keys',
         'is_metrics_enabled',

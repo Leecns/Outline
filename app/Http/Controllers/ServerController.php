@@ -13,8 +13,8 @@ class ServerController extends Controller
     {
         $numberOfServers = Server::count();
         $servers = Server::when($request->has('q'), function($query) use ($request) {
-            $query->where('name', 'LIKE', "%$request->q%");
-//                ->orWhere('ip', 'LIKE', "%$request->q%"); // TODO: add ip field to server model
+            $query->where('name', 'LIKE', "%$request->q%")
+                ->orWhere('hostname_or_ip', 'LIKE', "%$request->q%");
         })->latest()->get();
 
         return view('servers.index', compact('servers', 'numberOfServers'));
@@ -34,9 +34,12 @@ class ServerController extends Controller
         $data = json_decode($request->api_url_and_cert_sha256);
 
         try {
+            $parsedUrl = parse_url($data->apiUrl);
+
             Server::create([
                 'api_url' => $data->apiUrl,
                 'api_cert_sha256' => $data->certSha256,
+                'hostname_or_ip' => $parsedUrl['host']
             ]);
         } catch (Throwable $exception) {
             // TODO: report to sentry

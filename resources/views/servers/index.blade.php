@@ -50,7 +50,7 @@
                         <th>{{ __('#') }}</th>
                         <th>{{ __('ID') }}</th>
                         <th>{{ __('Name') }}</th>
-                        <th>{{ __('IP Address') }}</th>
+                        <th>{{ __('Hostname or IP') }}</th>
                         <th>{{ __('Number of Keys') }}</th>
                         <th>{{ __('Status') }}</th>
                         <th>{{ __('Actions') }}</th>
@@ -62,8 +62,7 @@
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $server->id }}</td>
                             <td>{{ $server->name }}</td>
-                            {{-- TODO: change this to hostname --}}
-                            <td>{{ $server->hostname_for_new_access_keys }}</td>
+                            <td>{{ $server->hostname_or_ip }}</td>
                             <td><span class="badge bg-light text-dark">{{ $server->keys()->count() }}</span></td>
                             <td>
                                 @if ($server->is_available)
