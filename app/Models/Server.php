@@ -18,6 +18,7 @@ class Server extends Model
         'hostname_or_ip',
         'hostname_for_new_access_keys',
         'port_for_new_access_keys',
+        'total_usage_in_bytes',
         'is_metrics_enabled',
         'is_available',
         'api_created_at',
@@ -73,7 +74,9 @@ class Server extends Model
                         $serverInfoRequest = $api->server();
                         $serverInfo = $serverInfoRequest->result;
 
-                        static::mapApiResult($server, $serverInfo);
+                        $metrics = get_server_usage_metrics($api, $server->id);
+
+                        static::mapApiResult($server, $serverInfo, $metrics);
 
                         break;
                     } catch (Throwable $_) {
@@ -96,7 +99,7 @@ class Server extends Model
         return $this->hasMany(AccessKey::class);
     }
 
-    private static function mapApiResult(Server $server, object $apiResult): void
+    private static function mapApiResult(Server $server, object $apiResult, array $metrics = []): void
     {
         $server->api_id = $apiResult->serverId;
         $server->name = $apiResult->name;
@@ -105,5 +108,7 @@ class Server extends Model
         $server->api_created_at = now()->parse($apiResult->createdTimestampMs / 1000);
         $server->port_for_new_access_keys = $apiResult->portForNewAccessKeys;
         $server->hostname_for_new_access_keys = $apiResult->hostnameForAccessKeys;
+
+        $server->total_usage_in_bytes = collect($metrics)->sum();
     }
 }

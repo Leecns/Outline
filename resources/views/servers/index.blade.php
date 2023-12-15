@@ -52,6 +52,7 @@
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('Hostname or IP') }}</th>
                         <th>{{ __('Number of Keys') }}</th>
+                        <th>{{ __('Total Usage') }}</th>
                         <th>{{ __('Status') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
@@ -64,6 +65,7 @@
                             <td>{{ $server->name }}</td>
                             <td>{{ $server->hostname_or_ip }}</td>
                             <td><span class="badge bg-light text-dark">{{ $server->keys()->count() }}</span></td>
+                            <td>{{ format_bytes($server->total_usage_in_bytes) }}</td>
                             <td>
                                 @if ($server->is_available)
                                     <span class="badge bg-success text-dark">{{ __('Available') }}</span>
