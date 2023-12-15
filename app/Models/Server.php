@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\OutlineVPN\ApiAccessKey;
 use App\Services\OutlineVPN\ApiClient;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -78,10 +79,13 @@ class Server extends Model
 
                         static::mapApiResult($server, $serverInfo, $metrics);
 
+                        $server->syncKeys($api);
+
                         break;
                     } catch (Throwable $exception) {
                         // TODO: report error to sentry
                         $try++;
+                        dd($exception);
                     }
                 } while ($try < $maxRetry);
 
@@ -89,9 +93,53 @@ class Server extends Model
             } catch (Throwable $exception) {
                 $server->is_available = false;
                 // TODO: report error to sentry
+                dd($exception);
             } finally {
                 $server->saveQuietly();
             }
+        });
+    }
+
+    public function syncKeys(ApiClient $api = null): void
+    {
+        $api ??= new ApiClient($this->api_url, $this->api_cert_sha256);
+
+        // Get the server keys
+        $keysRequest = $api->keys();
+        if (! $keysRequest->succeed)
+            $keysRequest->throw();
+
+        $serverKeys = collect($keysRequest->result->accessKeys)->map(fn ($serverKey) => ApiAccessKey::fromObject($serverKey));
+
+        // Get the keys in local db
+        $localKeys = $this->keys;
+
+        // Create missing keys & update existing keys
+        $serverKeys->each(function($serverKey) use ($localKeys) {
+            if ($localKey = $localKeys->first(fn ($localKey) => $localKey->api_id === $serverKey->id)) {
+                $localKey->name = $serverKey->name;
+                $localKey->data_limit = $serverKey->dataLimitInBytes;
+                $localKey->saveQuietly();
+            } else {
+                $newLocalKey = new AccessKey();
+                $newLocalKey->server_id = $this->id;
+                $newLocalKey->name = $serverKey->name;
+                $newLocalKey->port = $serverKey->port;
+                $newLocalKey->api_id = $serverKey->id;
+                $newLocalKey->method = $serverKey->method;
+                $newLocalKey->password = $serverKey->password;
+                $newLocalKey->access_url = $serverKey->accessUrl;
+                $newLocalKey->data_limit = $serverKey->dataLimitInBytes;
+                $newLocalKey->saveQuietly();
+            }
+        });
+
+        // Remove missing keys
+        $localKeys->each(function($localKey) use ($serverKeys) {
+            if ($serverKeys->contains(fn ($serverKey) => $serverKey->id === $localKey->api_id))
+                return;
+
+            $localKey->deleteQuietly();
         });
     }
 

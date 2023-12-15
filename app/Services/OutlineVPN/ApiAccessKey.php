@@ -4,7 +4,7 @@ namespace App\Services\OutlineVPN;
 
 class ApiAccessKey
 {
-    public string $id;
+    public int $id;
     public string $name;
     public string $password;
     public int $port;
@@ -14,13 +14,16 @@ class ApiAccessKey
 
     public static function fromObject(?object $input): static
     {
+        $name = str($input->name)->length() > 0 ? $input->name : "Key #$input->id";
+        $encodedName = rawurlencode($name);
+
         $key = new static;
-        $key->id = $input->id;
-        $key->name = $input->name;
+        $key->id = intval($input->id);
+        $key->name = $name;
         $key->password = $input->password;
         $key->port = $input->port;
         $key->method = $input->method;
-        $key->accessUrl = $input->accessUrl;
+        $key->accessUrl = "$input->accessUrl#$encodedName";
 
         if (isset($input->dataLimit))
             $key->dataLimitInBytes = $input->dataLimit->bytes;
