@@ -1,7 +1,4 @@
 
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import createQRCode from "./qr-code.js";
 
 window.addEventListener('load', () => {
