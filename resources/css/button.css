@@ -1,7 +1,7 @@
 .btn {
-    --bg: var(--surface-1);
-    --border: var(--surface-1);
-    --text: var(--text-1);
+    --bg: transparent;
+    --border: transparent;
+    --text: inherit;
 
     background-color: var(--bg);
     border: 2px solid var(--border);
@@ -21,9 +21,9 @@
 }
 
 .btn:hover {
-    --bg-on-hover: var(--surface-1);
-    --border-on-hover: var(--bg);
-    --text-on-hover: var(--text);
+    --bg-on-hover: var(--primary-brush-light);
+    --border-on-hover: var(--bg-on-hover);
+    --text-on-hover: var(--text-on-success-light);
 
     background-color: var(--bg-on-hover);
     border: 2px solid var(--border-on-hover);
@@ -39,6 +39,7 @@
 .btn-primary:hover {
     --bg-on-hover: var(--primary-brush-2);
     --border-on-hover: var(--primary-brush-2);
+    --text-on-hover: var(--text-on-primary);
 }
 
 .btn-secondary {
@@ -50,6 +51,7 @@
 .btn-secondary:hover {
     --bg-on-hover: var(--secondary-brush-2);
     --border-on-hover: var(--secondary-brush-2);
+    --text-on-hover: var(--text-on-secondary);
 }
 
 .btn-danger {
@@ -61,6 +63,7 @@
 .btn-danger:hover {
     --bg-on-hover: var(--danger-brush-2);
     --border-on-hover: var(--danger-brush-2);
+    --text-on-hover: var(--text-on-danger);
 }
 
 .btn-warning {
@@ -72,6 +75,7 @@
 .btn-warning:hover {
     --bg-on-hover: var(--warning-brush-2);
     --border-on-hover: var(--warning-brush-2);
+    --text-on-hover: var(--text-on-warning);
 }
 
 .btn-success {
@@ -83,4 +87,5 @@
 .btn-success:hover {
     --bg-on-hover: var(--success-brush-2);
     --border-on-hover: var(--success-brush-2);
+    --text-on-hover: var(--text-on-success);
 }

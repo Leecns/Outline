@@ -85,7 +85,7 @@ class Server extends Model
                     } catch (Throwable $exception) {
                         // TODO: report error to sentry
                         $try++;
-                        dd($exception);
+//                        dd($exception);
                     }
                 } while ($try < $maxRetry);
 
@@ -93,7 +93,7 @@ class Server extends Model
             } catch (Throwable $exception) {
                 $server->is_available = false;
                 // TODO: report error to sentry
-                dd($exception);
+//                dd($exception);
             } finally {
                 $server->saveQuietly();
             }

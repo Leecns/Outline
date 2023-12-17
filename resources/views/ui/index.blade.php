@@ -230,40 +230,40 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="center">1</td>
+                    <td>1</td>
                     <td>Netherlands</td>
                     <td>nth.free.internet.com</td>
-                    <td class="center"><span class="status status-secondary">5</span></td>
-                    <td class="center"><span class="status status-warning">202MB</span></td>
-                    <td class="center"><span class="status status-danger">Not Available</span></td>
-                    <td class="center"><button class="btn btn-danger">MANAGE</button></td>
+                    <td><span class="status status-secondary">5</span></td>
+                    <td><span class="status status-warning">202MB</span></td>
+                    <td><span class="status status-danger">Not Available</span></td>
+                    <td><button class="btn btn-danger">MANAGE</button></td>
                 </tr>
                 <tr>
                     <td>2</td>
                     <td>USA</td>
                     <td>usa.free.internet.com</td>
-                    <td class="center"><span class="status status-secondary">2</span></td>
-                    <td class="center"><span class="status status-warning">2.09GB</span></td>
-                    <td class="center"><span class="status status-success">Available</span></td>
-                    <td class="center"><a href="#" class="btn">MANAGE</a></td>
+                    <td><span class="status status-secondary">2</span></td>
+                    <td><span class="status status-warning">2.09GB</span></td>
+                    <td><span class="status status-success">Available</span></td>
+                    <td><a href="#" class="btn">MANAGE</a></td>
                 </tr>
                 <tr>
-                    <td class="center">3</td>
+                    <td>3</td>
                     <td>UK</td>
                     <td>uk.free.internet.com</td>
-                    <td class="center"><span class="status status-secondary">12</span></td>
-                    <td class="center"><span class="status status-warning">21.78GB</span></td>
-                    <td class="center"><span class="status status-success">Available</span></td>
-                    <td class="center"><a href="#" class="btn">MANAGE</a></td>
+                    <td><span class="status status-secondary">12</span></td>
+                    <td><span class="status status-warning">21.78GB</span></td>
+                    <td><span class="status status-success">Available</span></td>
+                    <td><a href="#" class="btn">MANAGE</a></td>
                 </tr>
                 <tr>
-                    <td class="center">4</td>
+                    <td>4</td>
                     <td>Iran</td>
                     <td>ir.free.internet.com</td>
-                    <td class="center"><span class="status status-secondary">6</span></td>
-                    <td class="center"><span class="status status-warning">1.6GB</span></td>
-                    <td class="center"><span class="status status-success">Available</span></td>
-                    <td class="center"><a href="#" class="btn btn-primary">MANAGE</a></td>
+                    <td><span class="status status-secondary">6</span></td>
+                    <td><span class="status status-warning">1.6GB</span></td>
+                    <td><span class="status status-success">Available</span></td>
+                    <td><a href="#" class="btn btn-primary">MANAGE</a></td>
                 </tr>
                 </tbody>
             </table>

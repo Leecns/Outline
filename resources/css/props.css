@@ -50,7 +50,7 @@
 
     --table-text: var(--text-1);
     --table-header-text: var(--text-2);
-    --table-even-rows-bg: var(--surface-1);
+    --table-even-rows-bg: var(--surface-2);
     --table-odd-rows-bg: var(--surface-2);
     --table-border-brush: var(--surface-3);
     --table-border-radius: 0.6rem;

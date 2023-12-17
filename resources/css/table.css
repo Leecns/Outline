@@ -34,9 +34,6 @@ table > thead th, table > tbody td {
     border-block-start: none !important;
     border-inline-end: none !important;
     padding: 0.64rem 0.86rem;
-}
-
-table > thead th, table > tbody td.center {
     text-align: center;
 }
 
