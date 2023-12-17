@@ -26,12 +26,17 @@
                 <form action="{{ route('servers.store') }}" method="post">
                     @csrf
 
-                    <textarea
-                        class="form-control"
-                        rows="6"
-                        name="api_url_and_cert_sha256"
-                        placeholder="{{ config('outline.setup_script_output_example') }}"
-                        required>{{ old('api_url_and_cert_sha256') }}</textarea>
+                    <section>
+                        <textarea
+                            class="form-control"
+                            rows="6"
+                            name="api_url_and_cert_sha256"
+                            placeholder="{{ config('outline.setup_script_output_example') }}"
+                            required>{{ old('api_url_and_cert_sha256') }}</textarea>
+                        @error('api_url_and_cert_sha256')
+                            <smal class="text-danger">{{ $message }}</smal>
+                        @enderror
+                    </section>
 
                     <section class="d-flex justify-content-between gap-2 mt-3">
                         <button class="btn btn-primary text-uppercase">{{ __('Add') }}</button>
