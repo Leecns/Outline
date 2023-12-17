@@ -23,7 +23,7 @@
 .btn:hover {
     --bg-on-hover: var(--primary-brush-light);
     --border-on-hover: var(--bg-on-hover);
-    --text-on-hover: var(--text-on-success-light);
+    --text-on-hover: var(--text-on-primary-light);
 
     background-color: var(--bg-on-hover);
     border: 2px solid var(--border-on-hover);
