@@ -1,24 +1,31 @@
-:root {
-    --qr-code-text: #5bb193;
-    --qr-code-bg: #212529;
+@import "props.css";
+@import "button.css";
+@import "dialog.css";
+@import "dropdown.css";
+@import "input.css";
+@import "status.css";
+@import "table.css";
+
+body {
+    color-scheme: dark;
 }
 
 body, input, textarea {
     font-family: 'Nunito', sans-serif;
 }
 
-html, body {
-    color-scheme: light dark;
-}
-
 body {
     margin: 0;
     padding: 0;
-
-    background-attachment: fixed;
 }
 
 ::placeholder {
     color: inherit;
     opacity: 0.48;
 }
+
+:disabled {
+    pointer-events: none !important;
+    opacity: 0.64 !important;
+}
+
