@@ -20,6 +20,12 @@
     transition: all 0.16s linear;
 }
 
+.btn-tool {
+    padding: 0.38rem;
+    display: grid;
+    place-items: center;
+}
+
 .btn:hover {
     --bg-on-hover: var(--primary-brush-light);
     --border-on-hover: var(--bg-on-hover);

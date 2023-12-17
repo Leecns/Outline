@@ -10,6 +10,7 @@
     border-radius: 0.64rem;
 
     font-size: smaller;
+    inline-size: fit-content;
 }
 
 .status-primary {
