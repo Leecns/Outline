@@ -11,7 +11,7 @@
 
 @section('content')
     <section class="mt-5 px-5">
-        <header>
+        <header class="mb-3">
             <h2>{{ __('Your Servers') }}</h2>
         </header>
 

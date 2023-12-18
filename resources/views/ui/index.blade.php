@@ -213,6 +213,7 @@
             <a href="#" class="btn btn-danger">Button</a>
         </section>
     </section>
+
     <section>
         <h3>Table</h3>
         <section>
@@ -267,6 +268,23 @@
                 </tr>
                 </tbody>
             </table>
+        </section>
+    </section>
+
+    <section>
+        <h3>Dialog</h3>
+        <section>
+            <button class="btn" data-dialog-trigger="true" data-dialog="myDialog">Open (as dialog)</button>
+            <button class="btn" data-dialog-trigger="true" data-dialog="myDialog" data-as-modal="true">Open (as modal)</button>
+
+            <dialog id="myDialog">
+                <h3>Use location services?</h3>
+                <p>In order to give directional instructions, we kindly ask you to turn on the location services.</p>
+                <div>
+                    <button class="btn btn-tool" data-dialog-close="true" data-dialog="myDialog">Close</button>
+                </div>
+            </dialog>
+        </section>
     </section>
 </body>
 </html>

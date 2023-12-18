@@ -47,6 +47,9 @@
     --text-hue: 156deg;
     --text-1: hsl(var(--text-hue), 42%, 96%);
     --text-2: hsla(var(--text-hue), 42%, 92%, 76%);
+    --text-3: hsla(var(--text-hue), 42%, 86%, 76%);
+
+    --ourtine-brush: hsla(var(--text-hue), 42%, 76%, 76%);
 
     --table-text: var(--text-1);
     --table-header-text: var(--text-2);
@@ -56,6 +59,7 @@
     --table-border-radius: 0.6rem;
     --table-border-size: 0.12rem;
 
-    --qr-code-text: var(--primary-brush-1);
-    --qr-code-bg: var(--success-brush-1);
+    --qr-code-text: var(--text-3);
+    --qr-code-bg: var(--surface-1);
+    --qr-code-size: 264px;
 }

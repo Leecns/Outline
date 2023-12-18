@@ -1,8 +1,13 @@
 import QRCodeStyling from "qr-code-styling";
 
+const bodyCss = getComputedStyle(document.documentElement);
+const size = bodyCss.getPropertyValue('--qr-code-size').replace('px', '');
+const bgBrush = bodyCss.getPropertyValue('--qr-code-bg');
+const textBrush = bodyCss.getPropertyValue('--qr-code-text');
+
 const options = {
-    width: 300,
-    height: 300,
+    width: size,
+    height: size,
     margin: 4,
     qrOptions: {
         typeNumber: "6",
@@ -16,27 +21,32 @@ const options = {
     },
     dotsOptions: {
         type: "extra-rounded",
-        color: getComputedStyle(document.documentElement).getPropertyValue('--qr-code-text'),
+        color: textBrush,
         gradient: null
     },
     backgroundOptions: {
-        color: getComputedStyle(document.documentElement).getPropertyValue('--qr-code-bg'),
+        color: bgBrush,
         gradient: null
     },
     cornersSquareOptions: {
         type: "extra-rounded",
-        color: getComputedStyle(document.documentElement).getPropertyValue('--qr-code-text'),
+        color: textBrush,
         gradient: null
     },
     cornersDotOptions: {
         type: "",
-        color: getComputedStyle(document.documentElement).getPropertyValue('--qr-code-text'),
+        color: textBrush,
         gradient: null
     },
 };
 
-export default function createQRCode(data, logoUrl, canvasSelector) {
-    const qrCode = new QRCodeStyling({...{ data, image: logoUrl }, ...options});
+window.addEventListener('load', () => {
+    window.createQRCode = function(data, logoUrl, containerElSelector) {
+        const qrCode = new QRCodeStyling({...{ data, image: logoUrl }, ...options});
 
-    qrCode.append(document.querySelector(canvasSelector));
-};
+        const container = document.querySelector(containerElSelector);
+        container.innerHTML = '';
+
+        qrCode.append(container);
+    };
+});
