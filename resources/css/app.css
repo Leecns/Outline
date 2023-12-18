@@ -2,7 +2,6 @@
 @import "button.css";
 @import "card.css";
 @import "dialog.css";
-@import "dropdown.css";
 @import "input.css";
 @import "status.css";
 @import "table.css";
@@ -76,4 +75,8 @@ canvas {
 #accessKeyQRCodeContainer {
     inline-size: var(--qr-code-size);
     block-size: var(--qr-code-size);
+}
+
+.error-message {
+    color: var(--danger-brush-1) !important;
 }

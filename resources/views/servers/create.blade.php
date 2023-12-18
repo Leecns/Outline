@@ -8,8 +8,8 @@
 
         <section class="d-grid gap-3 mt-3">
             <section>
-                <h4 class="m-0 mt-1">Follow the instructions below</h4>
-                <p class="m-0">These steps will help you install Outline on a Linux server.</p>
+                <h4 class="mt-1">Follow the instructions below</h4>
+                <p>These steps will help you install Outline on a Linux server.</p>
             </section>
 
             <section>
@@ -32,7 +32,7 @@
                                 placeholder="{{ config('outline.setup_script_output_example') }}"
                                 required>
                             @error('api_url_and_cert_sha256')
-                            <smal class="text-danger">{{ $message }}</smal>
+                            <smal class="error-message">{{ $message }}</smal>
                             @enderror
                         </section>
 
