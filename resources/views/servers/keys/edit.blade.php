@@ -40,10 +40,7 @@
 
                 <div class="input-group">
                     <span class="input-group-text">{{ __('Expiration time') }}</span>
-                    <input class="form-control" type="datetime-local" name="expires_at" id="expiresAt" value="{{ old('expires_at', $key->expires_at?->format('Y-m-d\TH:i')) }}" min="{{ now()->format('Y-m-d\TH:i') }}">
-                    <span class="input-group-text">
-                        <button type="button" class="btn btn-sm btn-dark" onclick="expiresAt.value = ''">{{ __('Clear') }}</button>
-                    </span>
+                    <input class="form-control" type="datetime-local" name="expires_at" value="{{ old('expires_at', $key->expires_at?->format('Y-m-d\TH:i')) }}" min="{{ now()->format('Y-m-d\TH:i') }}">
                 </div>
 
                 @error('expires_at')
