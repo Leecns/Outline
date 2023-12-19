@@ -162,13 +162,17 @@
             <div class="my-3">
                 <code id="accessKeyModalValue">__access_key__</code>
             </div>
-            <button class="btn" data-dialog-close="true" data-dialog="accessKeyModal">{{ __('Ok') }}</button>
+            <div class="text-end">
+                <button class="btn px-4" data-dialog-close="true" data-dialog="accessKeyModal">{{ __('Ok') }}</button>
+            </div>
         </dialog>
 
         <dialog id="qrCodeModal">
             <h3>{{ __('️Access Key QR Code') }}</h3>
             <div class="my-3" id="accessKeyQRCodeContainer"></div>
-            <button class="btn" data-dialog-close="true" data-dialog="qrCodeModal">{{ __('Ok') }}</button>
+            <div class="text-end">
+                <button class="btn px-4" data-dialog-close="true" data-dialog="qrCodeModal">{{ __('Ok') }}</button>
+            </div>
         </dialog>
     </div>
 @endsection
