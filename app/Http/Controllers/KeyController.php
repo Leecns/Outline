@@ -40,18 +40,18 @@ class KeyController extends Controller
             'expires_at' => 'nullable|date_format:Y-m-d\TH:i',
         ]);
 
-        $dataLimit = match($request->data_limit_unit) {
+        $dataLimit = match ($request->data_limit_unit) {
             'KB' => $request->data_limit * 1024,
             'MB' => $request->data_limit * pow(1024, 2),
             'GB' => $request->data_limit * pow(1024, 3),
             default => null
         };
 
-        DB::transaction(function() use ($request, $server, $dataLimit) {
+        DB::transaction(function () use ($request, $server, $dataLimit) {
             $server->keys()->create([
                 'name' => $request->name,
                 'data_limit' => $dataLimit > 0 ? $dataLimit : null,
-                'expires_at' => $request->expires_at
+                'expires_at' => $request->expires_at,
             ]);
         });
 
@@ -83,7 +83,7 @@ class KeyController extends Controller
             $key->update([
                 'name' => $request->name,
                 'data_limit' => $request->data_limit,
-                'expires_at' => $request->expires_at
+                'expires_at' => $request->expires_at,
             ]);
         });
 

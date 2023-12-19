@@ -20,7 +20,7 @@ class AccessKey extends Model
         'port',
         'data_limit',
         'data_usage',
-        'expires_at'
+        'expires_at',
     ];
 
     protected $casts = [
@@ -29,24 +29,27 @@ class AccessKey extends Model
 
     protected static function booted(): void
     {
-        static::creating(function(AccessKey $accessKey) {
+        static::creating(function (AccessKey $accessKey) {
             $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $newKeyRequest = $api->createKey();
 
-            if (! $newKeyRequest->succeed)
+            if (! $newKeyRequest->succeed) {
                 $newKeyRequest->throw();
+            }
 
             $outlineAccessKey = ApiAccessKey::fromObject($newKeyRequest->result);
             $renameRequest = $api->renameKey($outlineAccessKey->id, $accessKey->name);
 
-            if (! $renameRequest->succeed)
+            if (! $renameRequest->succeed) {
                 $renameRequest->throw();
+            }
 
             if ($accessKey->data_limit) {
                 $dataLimitRequest = $api->setDataLimitForKey($outlineAccessKey->id, $accessKey->data_limit);
 
-                if (! $dataLimitRequest->succeed)
+                if (! $dataLimitRequest->succeed) {
                     $dataLimitRequest->throw();
+                }
             }
 
             $encodedName = rawurlencode($accessKey->name);
@@ -58,22 +61,24 @@ class AccessKey extends Model
             $accessKey->access_url = "$outlineAccessKey->accessUrl#$encodedName";
         });
 
-        static::updating(function(AccessKey $accessKey) {
+        static::updating(function (AccessKey $accessKey) {
             $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $renameRequest = $api->renameKey($accessKey->api_id, $accessKey->name);
 
-            if (! $renameRequest->succeed)
+            if (! $renameRequest->succeed) {
                 $renameRequest->throw();
+            }
 
             $dataLimitRequest = $accessKey->data_limit ?
                 $api->setDataLimitForKey($accessKey->api_id, $accessKey->data_limit) :
                 $api->removeDataLimitForKey($accessKey->api_id);
 
-            if (! $dataLimitRequest->succeed)
+            if (! $dataLimitRequest->succeed) {
                 $dataLimitRequest->throw();
+            }
         });
 
-        static::deleting(function(AccessKey $accessKey) {
+        static::deleting(function (AccessKey $accessKey) {
             $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $deleteKeyRequest = $api->deleteKey($accessKey->api_id);
 
@@ -93,7 +98,7 @@ class AccessKey extends Model
     public function disable(): void
     {
         $this->update([
-            'data_limit' => 1024 // 1KB
+            'data_limit' => 1024, // 1KB
         ]);
     }
 

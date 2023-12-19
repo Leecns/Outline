@@ -12,7 +12,7 @@ class ServerController extends Controller
     public function index(Request $request)
     {
         $numberOfServers = Server::count();
-        $servers = Server::when($request->has('q'), function($query) use ($request) {
+        $servers = Server::when($request->has('q'), function ($query) use ($request) {
             $query->where('name', 'LIKE', "%$request->q%")
                 ->orWhere('hostname_or_ip', 'LIKE', "%$request->q%");
         })->latest()->get();
@@ -28,7 +28,7 @@ class ServerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'api_url_and_cert_sha256' => 'required|max:255'
+            'api_url_and_cert_sha256' => 'required|max:255',
         ]);
 
         $data = json_decode($request->api_url_and_cert_sha256);
@@ -39,11 +39,11 @@ class ServerController extends Controller
             Server::create([
                 'api_url' => $data->apiUrl,
                 'api_cert_sha256' => $data->certSha256,
-                'hostname_or_ip' => $parsedUrl['host']
+                'hostname_or_ip' => $parsedUrl['host'],
             ]);
         } catch (Throwable $exception) {
             // TODO: report to sentry
-            return back()->withInput()->withErrors([ 'api_url_and_cert_sha256' => __('Could not create new server. Make sure your API URL is correct.') ]);
+            return back()->withInput()->withErrors(['api_url_and_cert_sha256' => __('Could not create new server. Make sure your API URL is correct.')]);
         }
 
         return redirect()->route('servers.index');
@@ -62,7 +62,7 @@ class ServerController extends Controller
             'port_for_new_access_keys' => 'required|integer|min:1|max:65535',
         ]);
 
-        DB::transaction(function() use ($validatedData, $server) {
+        DB::transaction(function () use ($validatedData, $server) {
             $server->update($validatedData);
         });
 

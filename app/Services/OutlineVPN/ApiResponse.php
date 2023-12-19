@@ -2,13 +2,14 @@
 
 namespace App\Services\OutlineVPN;
 
-use stdClass;
 use Exception;
 use Illuminate\Http\Response;
+use stdClass;
 
 class ApiResponse
 {
     public bool $isServerFailure;
+
     public bool $isValidationError;
 
     public function __construct(
@@ -30,7 +31,7 @@ class ApiResponse
         /**
          * This field may set to an error message in case of failure.
          */
-        public string|null $message = null,
+        public ?string $message = null,
 
         /**
          * This field may set to errors in case of failure.
@@ -41,7 +42,7 @@ class ApiResponse
         $this->isValidationError = $this->statusCode == Response::HTTP_UNPROCESSABLE_ENTITY;
     }
 
-    public static function succeed(int $statusCode, mixed $result = null, string|null $message = null): static
+    public static function succeed(int $statusCode, mixed $result = null, ?string $message = null): static
     {
         return new static(
             succeed: true,
@@ -51,7 +52,7 @@ class ApiResponse
         );
     }
 
-    public static function error(int $statusCode, string|null $message = null, array|stdClass|null $errors = null): static
+    public static function error(int $statusCode, ?string $message = null, array|stdClass|null $errors = null): static
     {
         return new static(
             succeed: false,
@@ -61,7 +62,7 @@ class ApiResponse
         );
     }
 
-    public static function serverFailure(int $statusCode, string|null $message = null, array|stdClass|null $errors = null): static
+    public static function serverFailure(int $statusCode, ?string $message = null, array|stdClass|null $errors = null): static
     {
         return new static(
             succeed: false,
@@ -71,17 +72,17 @@ class ApiResponse
         );
     }
 
-    public static function notFound(string|null $message = ''): void
+    public static function notFound(?string $message = ''): void
     {
         abort(Response::HTTP_NOT_FOUND, $message);
     }
 
-    public static function unauthenticated(string|null $message = ''): void
+    public static function unauthenticated(?string $message = ''): void
     {
         abort(Response::HTTP_UNAUTHORIZED, $message);
     }
 
-    public static function unauthorized(string|null $message = ''): void
+    public static function unauthorized(?string $message = ''): void
     {
         abort(Response::HTTP_FORBIDDEN, $message);
     }

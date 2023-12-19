@@ -43,7 +43,7 @@ class ApiClient
     public function setPortForNewKeys(int $port): ApiResponse
     {
         $response = $this->httpSession->put('/server/port-for-new-access-keys', [
-            'port' => $port
+            'port' => $port,
         ]);
 
         return $this->createApiResponse($response);
@@ -92,8 +92,8 @@ class ApiClient
     {
         $response = $this->httpSession->put("/access-keys/{$id}/data-limit", [
             'limit' => [
-                'bytes' => $limitInBytes
-            ]
+                'bytes' => $limitInBytes,
+            ],
         ]);
 
         return $this->createApiResponse($response);
