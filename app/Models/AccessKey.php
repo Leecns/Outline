@@ -82,6 +82,13 @@ class AccessKey extends Model
         });
     }
 
+    public function disable(): void
+    {
+        $this->update([
+            'data_limit' => 1024 // 1KB
+        ]);
+    }
+
     public function server(): BelongsTo
     {
         return $this->belongsTo(Server::class);
