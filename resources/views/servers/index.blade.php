@@ -1,52 +1,43 @@
 @extends('layouts.app')
 
+@section('footer-stuff')
+    <script>
+        const searchInput = document.getElementById('serverSearchInput');
+        searchInput?.addEventListener('search', () => {
+            searchInput.closest('form').submit();
+        });
+    </script>
+@endsection
+
 @section('content')
     <section class="mt-5 px-5">
-        <header class="d-flex justify-content-between align-items-center">
-            <h2 class="text-center text-uppercase">{{ __('Your Servers') }}</h2>
-
-            <a href="{{ route('servers.create') }}" class="btn btn-light text-uppercase">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-dasharray="18" stroke-dashoffset="18" stroke-linecap="round" stroke-width="2"><path d="M12 5V19"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.3s" values="18;0"/></path><path d="M5 12H19"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="18;0"/></path></g></svg>
-                <span>{{ __('Add') }}</span>
-            </a>
+        <header class="mb-3">
+            <h2>{{ __('Your Servers') }}</h2>
         </header>
 
         @if ($numberOfServers > 0)
-            <search class="mx-auto my-3">
-                <form action="{{ route('servers.index') }}" class="d-flex justify-content-between align-items-center">
-                    <div class="input-group mb-3">
-                        <label for="search" class="input-group-text">
-                            <svg width="24" height="24" viewBox="0 0 24 24" class="search-icon">
-                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2">
-                                    <path stroke-dasharray="16" stroke-dashoffset="16" d="M10.5 13.5L3 21">
-                                        <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.2s" values="16;0"/>
-                                    </path>
-                                    <path stroke-dasharray="40" stroke-dashoffset="40" d="M10.7574 13.2426C8.41421 10.8995 8.41421 7.10051 10.7574 4.75736C13.1005 2.41421 16.8995 2.41421 19.2426 4.75736C21.5858 7.10051 21.5858 10.8995 19.2426 13.2426C16.8995 15.5858 13.1005 15.5858 10.7574 13.2426Z">
-                                        <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="40;0"/>
-                                    </path>
-                                </g>
-                            </svg>
-                        </label>
-                        <input id="search" autofocus class="form-control" type="search" name="q" value="{{ request()->input('q') }}" placeholder="Name or IP..." />
-                    </div>
+            <section class="d-flex justify-content-between align-items-center mb-3">
+                <search>
+                    <form action="{{ route('servers.index') }}" class="d-flex justify-content-between align-items-center">
+                        <input id="serverSearchInput" autofocus type="search" name="q" value="{{ request()->input('q') }}" placeholder="{{ __('🔍 Name or IP [+Enter]') }}" size="28" />
+                    </form>
+                </search>
 
-                </form>
-            </search>
+                <a href="{{ route('servers.create') }}" class="btn btn-primary">{{ __('Add') }} </a>
+            </section>
         @endif
 
         @if ($numberOfServers === 0)
-            <section class="rounded-3 p-3 text-center text-uppercase mt-5">
+            <section class="p-3 text-center mt-5">
                 <p>{{ __("You haven't added any server yet!") }}</p>
 
-                <a href="{{ route('servers.create') }}" class="btn btn-light">
-                    <span>{{ __('Add first one') }}</span>
-                </a>
+                <a href="{{ route('servers.create') }}" class="btn btn-primary">{{ __('Add first one') }}</a>
             </section>
 
         @else
-            <table class="table table-bordered">
+            <table>
                 <thead>
-                    <tr>
+                    <tr class="text-uppercase">
                         <th>{{ __('#') }}</th>
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('Hostname or IP') }}</th>
@@ -62,25 +53,25 @@
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $server->name }}</td>
                             <td>{{ $server->hostname_or_ip }}</td>
-                            <td><span class="badge bg-light text-dark">{{ $server->keys()->count() }}</span></td>
-                            <td>{{ format_bytes($server->total_data_usage) }}</td>
+                            <td><span class="status status-secondary">{{ $server->keys()->count() }}</span></td>
+                            <td><span class="status status-secondary">{{ format_bytes($server->total_data_usage) }}</span></td>
                             <td>
                                 @if ($server->is_available)
-                                    <span class="badge bg-success text-dark">{{ __('Available') }}</span>
+                                    <span class="status status-success">{{ __('Available') }}</span>
                                 @else
-                                    <span class="badge bg-danger text-dark">{{ __('Not Available') }}</span>
+                                    <span class="status status-danger">{{ __('Not Available') }}</span>
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('servers.keys.index', $server->id) }}" class="btn btn-sm btn-light">{{ __('Manage') }}</a>
+                                <a href="{{ route('servers.keys.index', $server->id) }}" class="btn">{{ __('Manage') }}</a>
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="99">
-                                <section class="p-3 text-center d-grid align-items-center text-uppercase">
+                                <section class="p-3 text-center text-muted d-grid gap-2 align-items-center">
                                     <div>¯\_(ツ)_/¯</div>
-                                    <div>{{ __("No result!") }}</div>
+                                    <div>{{ __("No Result!") }}</div>
                                 </section>
                             </td>
                         </tr>

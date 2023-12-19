@@ -3,53 +3,51 @@
 @section('content')
     <section class="mt-5 px-5">
         <header class="d-flex justify-content-between align-items-center">
-            <h2 class="text-center text-uppercase">{{ __('Editable information') }}</h2>
-            <a class="btn btn-outline-light" href="{{ route('servers.keys.index', $server->id) }}">{{ __('Back') }}</a>
+            <div class="d-flex align-items-center gap-2">
+                <a class="btn btn-tool" href="{{ route('servers.keys.index', $server->id) }}">
+                    <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="m7.825 13l4.9 4.9q.3.3.288.7t-.313.7q-.3.275-.7.288t-.7-.288l-6.6-6.6q-.15-.15-.213-.325T4.426 12q0-.2.063-.375T4.7 11.3l6.6-6.6q.275-.275.688-.275t.712.275q.3.3.3.713t-.3.712L7.825 11H19q.425 0 .713.288T20 12q0 .425-.288.713T19 13z"/></svg>
+                </a>
+                <h2>{{ __('Editable information') }}</h2>
+            </div>
         </header>
 
         <form class="d-grid gap-3 mt-3" action="{{ route('servers.update', $server->id) }}" method="post">
             @csrf
             @method('PATCH')
             <section>
-                <div class="input-group">
-                    <span class="input-group-text">{{ __('Name') }} <sup class="text-danger">*</sup></span>
-                    <input class="form-control" type="text" name="name" required value="{{ old('name', $server->name) }}" autofocus>
-                </div>
-                <small class="text-muted">{{ __('Set a new name for your server. Note that this will not be reflected on the devices of the users that you invited to connect to it.') }}</small>
-                @error('name')<small class="text-danger">{{ $message }}</small>@enderror
+                <label for="name" class="ps-1 mb-1">{{ __('Name') }}</label>
+                <input class="d-block" id="name" name="name" required value="{{ old('name', $server->name) }}" autofocus>
+                <small class="ps-1 d-block text-muted">{{ __('Set a new name for your server. Note that this will not be reflected on the devices of the users that you invited to connect to it.') }}</small>
+                @error('name')<small class="ps-1 error-message">{{ $message }}</small>@enderror
             </section>
 
-            <section class="d-flex gap-3">
-                <section>
-                    <div class="input-group">
-                        <span class="input-group-text">{{ __('Hostname or IP for new access keys') }} <sup class="text-danger">*</sup></span>
-                        <input class="form-control" type="text" name="hostname_for_new_access_keys" required value="{{ old('hostname_for_new_access_keys', $server->hostname_for_new_access_keys) }}" autofocus>
-                    </div>
-                    @error('port_for_new_access_keys')<small class="text-danger">{{ $message }}</small>@enderror
-                </section>
+            <section>
+                <label for="hostname" class="ps-1 mb-1">{{ __('Hostname or IP for new access keys') }}</label>
+                <input class="d-block" id="hostname" name="hostname_for_new_access_keys" required value="{{ old('hostname_for_new_access_keys', $server->hostname_for_new_access_keys) }}">
+                <small class="ps-1 d-block text-muted">{{ __('This will not affect the existing access keys.') }}</small>
+                @error('hostname_for_new_access_keys')<small class="ps-1 error-message">{{ $message }}</small>@enderror
+            </section>
 
-                <section>
-                    <div class="input-group">
-                        <span class="input-group-text">{{ __('Port for new access keys (Max: 65535)') }} <sup class="text-danger">*</sup></span>
-                        <input class="form-control" type="text" name="port_for_new_access_keys" required value="{{ old('port_for_new_access_keys', $server->port_for_new_access_keys) }}" autofocus>
-                    </div>
-                    @error('port_for_new_access_keys')<small class="text-danger">{{ $message }}</small>@enderror
-                </section>
+            <section>
+                <label for="port" class="ps-1 mb-1">{{ __('Port for new access keys (Max: 65535)') }}</label>
+                <input class="d-block" type="number" id="port" name="port_for_new_access_keys" required value="{{ old('port_for_new_access_keys', $server->port_for_new_access_keys) }}">
+                <small class="ps-1 d-block text-muted">{{ __('This will not affect the existing access keys.') }}</small>
+                @error('port_for_new_access_keys')<small class="ps-1 error-message">{{ $message }}</small>@enderror
             </section>
 
             <section class="d-flex justify-content-between">
-                <button class="btn btn-light">{{ __('Update') }}</button>
+                <button class="btn btn-primary">{{ __('Update') }}</button>
             </section>
         </form>
 
         <section class="mt-5">
-            <h3 class="text-uppercase">{{ __('Remove this server') }}</h3>
-            <p>{{ __("Please note that this action will only remove the server from the :app's database. The server itself will not be affected.", ['app' => config('app.name')]) }}</p>
+            <h2>{{ __('Remove this server') }}</h2>
+            <p class="mb-3">{{ __("Please note that this action will only remove the server from the :app's database. The server itself will not be affected.", ['app' => config('app.name')]) }}</p>
 
-            <form action="{{ route('servers.destroy', $server->id) }}" method="post">
+            <form action="{{ route('servers.destroy', $server->id) }}" method="post" onsubmit="return confirm('{{ __('Are you sure you want to remove this server?') }}')">
                 @csrf
                 @method('DELETE')
-                <button class="btn btn-outline-danger">{{ __('Remove') }}</button>
+                <button class="btn btn-danger">{{ __('Remove') }}</button>
             </form>
         </section>
     </section>

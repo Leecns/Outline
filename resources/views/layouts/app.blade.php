@@ -5,15 +5,15 @@
 
 <body data-bs-theme="dark">
 
-<div class="overlay py-5">
-    <div class="container ">
-        @include('includes.header')
+<div class="container mt-5">
+    @include('includes.header')
 
-        <main>
-            @yield('content')
-        </main>
-    </div>
+    <main>
+        @yield('content')
+    </main>
 </div>
+
+@yield('footer-stuff')
 
 </body>
 </html>

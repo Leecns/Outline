@@ -43,7 +43,7 @@ class ServerController extends Controller
             ]);
         } catch (Throwable $exception) {
             // TODO: report to sentry
-            return back()->withErrors([ 'api_url_and_cert_sha256' => __('Could not create new server.') ]);
+            return back()->withInput()->withErrors([ 'api_url_and_cert_sha256' => __('Could not create new server. Make sure your API URL is correct.') ]);
         }
 
         return redirect()->route('servers.index');

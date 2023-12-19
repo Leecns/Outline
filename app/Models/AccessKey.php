@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Services\OutlineVPN\ApiAccessKey;
 use App\Services\OutlineVPN\ApiClient;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -80,6 +81,20 @@ class AccessKey extends Model
                 $deleteKeyRequest->throw();
             }
         });
+    }
+
+    protected function isExpired(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => now()->gt($this->expires_at)
+        );
+    }
+
+    public function disable(): void
+    {
+        $this->update([
+            'data_limit' => 1024 // 1KB
+        ]);
     }
 
     public function server(): BelongsTo

@@ -18,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 Route::resource('servers', ServerController::class);
 Route::resource('servers.keys', KeyController::class);
 
+Route::get('ui', fn () => view('ui.index'));
