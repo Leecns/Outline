@@ -108,7 +108,9 @@
                                     @if ($key->is_expired)
                                         <span class="status status-danger">{{ __('Expired') }}</span>
                                     @else
-                                        <span class="status status-warning countdown" data-expired-label="{{ __('Expired') }}" data-value="{{ $key->expires_at->timestamp }}" title="{{ __('Until :datetime', ['datetime' => $key->expires_at]) }}">...</span>
+                                        <span class="status status-warning countdown" data-expired-label="{{ __('Expired') }}" data-value="{{ $key->expires_at->timestamp }}" title="{{ __('Until :datetime', ['datetime' => $key->expires_at]) }}">
+                                            {{ format_as_duration(now(), $key->expires_at) }}
+                                        </span>
                                     @endif
                                 @else
                                     <span class="status status-success d-flex align-items-center" title="{{ __('Forever') }}">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Services\OutlineVPN\ApiClient;
+use Carbon\Carbon;
 
 if (! function_exists('get_server_usage_metrics')) {
     function get_server_usage_metrics(ApiClient $api, int $serverId): object
@@ -34,5 +35,17 @@ if (! function_exists('format_bytes')) {
         }
 
         return implode(' ', $result);
+    }
+}
+
+if (! function_exists('format_as_duration')) {
+    function format_as_duration(Carbon $start, Carbon $end): string
+    {
+        $duration = $end->diff($start);
+        $hours = $duration->h;
+        $minutes = $duration->i;
+        $seconds = $duration->s;
+
+        return sprintf("%dd %dh %dm %ds", $duration->days, $hours, $minutes, $seconds);
     }
 }
