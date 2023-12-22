@@ -81,7 +81,6 @@
                     <th>{{ __('Name') }}</th>
                     <th>{{ __('Data Usage') }}</th>
                     <th>{{ __('Validity') }}</th>
-                    <th>{{ __('Status') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
                 </thead>
@@ -118,9 +117,6 @@
                                     </span>
                                 @endif
                             </div>
-                        </td>
-                        <td>
-                            <span class="status status-success">Active</span>
                         </td>
                         <td>
                             <div class="d-flex gap-2 align-items-center justify-content-center flex-wrap">
