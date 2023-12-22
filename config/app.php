@@ -59,6 +59,10 @@ return [
 
     'github_url' => env('APP_GITHUB_URL', 'https://github.com/AmRo045/OutlineManager'),
 
+    'author_name' => env('APP_AUTHOR_name', 'AmRo045'),
+
+    'author_url' => env('APP_AUTHOR_URL', 'https://amro045.github.io/'),
+
     'asset_url' => env('ASSET_URL'),
 
     /*
