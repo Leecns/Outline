@@ -52,13 +52,11 @@ class AccessKey extends Model
                 }
             }
 
-            $encodedName = rawurlencode($accessKey->name);
-
             $accessKey->api_id = $outlineAccessKey->id;
             $accessKey->password = $outlineAccessKey->password;
             $accessKey->method = $outlineAccessKey->method;
             $accessKey->port = $outlineAccessKey->port;
-            $accessKey->access_url = "$outlineAccessKey->accessUrl#$encodedName";
+            $accessKey->access_url = "$outlineAccessKey->accessUrl";
         });
 
         static::updating(function (AccessKey $accessKey) {

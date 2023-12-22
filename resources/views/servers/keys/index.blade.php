@@ -87,7 +87,7 @@
                 </thead>
                 <tbody>
                 @forelse($keys as $key)
-                    <tr data-key="{{ $key->access_url }}">
+                    <tr data-key="{{ $key->access_url . '#' . rawurlencode($key->name) }}">
                         <td>{{ $loop->index + 1 }}</td>
                         <td>{{ $key->name }}</td>
                         <td>
@@ -132,7 +132,7 @@
                                     <x-svg.qr-code width="20" height="20" />
                                 </button>
 
-                                <button class="btn btn-tool" title="{{ __('Copy access key to clipboard') }}" onclick="copyToClipboard('{{ $key->access_url }}', '{{ __('Copied 😎') }}')">
+                                <button class="btn btn-tool" title="{{ __('Copy access key to clipboard') }}" onclick="copyToClipboard('{{ $key->access_url . '#' . rawurlencode($key->name) }}', '{{ __('Copied 😎') }}')">
                                     <x-svg.copy width="20" height="20" />
                                 </button>
 
