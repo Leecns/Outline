@@ -32,11 +32,12 @@ class UpdateAdminPassword extends Command
 
         if ($newPassword !== $confirmPassword) {
             $this->error('Passwords do not match. Please try again.');
+
             return;
         }
 
         User::whereUsername('admin')->update([
-            'password' => Hash::make($newPassword)
+            'password' => Hash::make($newPassword),
         ]);
 
         $this->info('Admin password has been updated successfully.');

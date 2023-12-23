@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -21,7 +19,7 @@ class AuthController extends Controller
 
         $credentials = [
             'username' => 'admin',
-            'password' => $request->password
+            'password' => $request->password,
         ];
 
         if (auth()->attempt($credentials, remember: true)) {
@@ -29,7 +27,7 @@ class AuthController extends Controller
         }
 
         return redirect()->back()->withErrors([
-            'password' => __('Provided password is incorrect :(')
+            'password' => __('Provided password is incorrect :('),
         ]);
     }
 

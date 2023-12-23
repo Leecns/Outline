@@ -46,6 +46,6 @@ if (! function_exists('format_as_duration')) {
         $minutes = $duration->i;
         $seconds = $duration->s;
 
-        return sprintf("%dd %dh %dm %ds", $duration->days, $hours, $minutes, $seconds);
+        return sprintf('%dd %dh %dm %ds', $duration->days, $hours, $minutes, $seconds);
     }
 }

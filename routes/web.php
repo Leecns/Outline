@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::as('auth.')
     ->middleware('guest')
     ->controller(AuthController::class)
-    ->group(function() {
+    ->group(function () {
         Route::get('/', 'showLoginForm')->name('login.show');
         Route::post('/', 'login')->name('login.store');
 
@@ -28,7 +28,7 @@ Route::as('auth.')
             ->withoutMiddleware('guest');
     });
 
-Route::middleware('auth')->group(function() {
+Route::middleware('auth')->group(function () {
     Route::resource('servers', ServerController::class);
     Route::resource('servers.keys', KeyController::class);
 });
