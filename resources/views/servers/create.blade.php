@@ -37,8 +37,8 @@
                         </section>
 
                         <section class="d-flex justify-content-between gap-2 mt-3">
-                            <button class="btn btn-primary text-uppercase">{{ __('Add') }}</button>
-                            <a href="{{ route('servers.index') }}" class="btn btn-light text-uppercase">{{ __('Cancel') }}</a>
+                            <button class="btn btn-primary">{{ __('Add') }}</button>
+                            <a href="{{ route('servers.index') }}" class="btn btn-light">{{ __('Cancel') }}</a>
                         </section>
                     </form>
                 </section>

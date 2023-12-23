@@ -31,7 +31,7 @@
             <section class="p-3 text-center mt-5">
                 <p>{{ __("You haven't added any server yet!") }}</p>
 
-                <a href="{{ route('servers.create') }}" class="btn btn-primary">{{ __('Add first one') }}</a>
+                <a href="{{ route('servers.create') }}" class="btn btn-primary mt-3">{{ __('Add first one') }}</a>
             </section>
 
         @else
