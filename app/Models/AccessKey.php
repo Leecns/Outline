@@ -52,13 +52,11 @@ class AccessKey extends Model
                 }
             }
 
-            $encodedName = rawurlencode($accessKey->name);
-
             $accessKey->api_id = $outlineAccessKey->id;
             $accessKey->password = $outlineAccessKey->password;
             $accessKey->method = $outlineAccessKey->method;
             $accessKey->port = $outlineAccessKey->port;
-            $accessKey->access_url = "$outlineAccessKey->accessUrl#$encodedName";
+            $accessKey->access_url = "$outlineAccessKey->accessUrl";
         });
 
         static::updating(function (AccessKey $accessKey) {
@@ -97,9 +95,13 @@ class AccessKey extends Model
 
     public function disable(): void
     {
-        $this->update([
-            'data_limit' => 1024, // 1KB
-        ]);
+        $limit = 1024; // 1KB
+        $api = new ApiClient($this->server->api_url, $this->server->api_cert_sha256);
+        $api->removeDataLimitForKey($this->api_id);
+        $api->setDataLimitForKey($this->api_id, $limit);
+
+        $this->data_limit = $limit;
+        $this->saveQuietly();
     }
 
     public function server(): BelongsTo

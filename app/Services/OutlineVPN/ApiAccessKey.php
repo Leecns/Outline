@@ -21,7 +21,6 @@ class ApiAccessKey
     public static function fromObject(?object $input): static
     {
         $name = str($input->name)->length() > 0 ? $input->name : "Key #$input->id";
-        $encodedName = rawurlencode($name);
 
         $key = new static;
         $key->id = intval($input->id);
@@ -29,7 +28,7 @@ class ApiAccessKey
         $key->password = $input->password;
         $key->port = $input->port;
         $key->method = $input->method;
-        $key->accessUrl = "$input->accessUrl#$encodedName";
+        $key->accessUrl = $input->accessUrl;
 
         if (isset($input->dataLimit)) {
             $key->dataLimitInBytes = $input->dataLimit->bytes;

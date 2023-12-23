@@ -62,4 +62,6 @@
     --qr-code-text: var(--text-3);
     --qr-code-bg: var(--surface-1);
     --qr-code-size: 264px;
+
+    --heart-brush: hsl(0deg, 64%, 50%);
 }

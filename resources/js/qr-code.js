@@ -8,9 +8,9 @@ const textBrush = bodyCss.getPropertyValue('--qr-code-text');
 const options = {
     width: size,
     height: size,
-    margin: 4,
+    margin: 2,
     qrOptions: {
-        typeNumber: "6",
+        typeNumber: "10",
         mode: "Byte",
         errorCorrectionLevel: "M"
     },
@@ -42,11 +42,16 @@ const options = {
 
 window.addEventListener('load', () => {
     window.createQRCode = function(data, logoUrl, containerElSelector) {
-        const qrCode = new QRCodeStyling({...{ data, image: logoUrl }, ...options});
+        try {
+            const qrCode = new QRCodeStyling({...{ data, image: logoUrl }, ...options});
 
-        const container = document.querySelector(containerElSelector);
-        container.innerHTML = '';
+            const container = document.querySelector(containerElSelector);
+            container.innerHTML = '';
 
-        qrCode.append(container);
+            qrCode.append(container);
+        } catch (e) {
+            console.error(e);
+            alert('Failed to create QR Code for: ' + data);
+        }
     };
 });

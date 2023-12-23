@@ -80,3 +80,7 @@ canvas {
 .error-message {
     color: var(--danger-brush-1) !important;
 }
+
+main {
+    min-block-size: 76vh;
+}
