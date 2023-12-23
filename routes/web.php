@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\ServerController;
 use Illuminate\Support\Facades\Route;
@@ -15,5 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('servers', ServerController::class);
-Route::resource('servers.keys', KeyController::class);
+Route::as('auth.')
+    ->middleware('guest')
+    ->controller(AuthController::class)
+    ->group(function() {
+        Route::get('/', 'showLoginForm')->name('login.show');
+        Route::post('/', 'login')->name('login.store');
+
+        Route::delete('/', 'logout')->name('login.destroy')
+            ->middleware('auth')
+            ->withoutMiddleware('guest');
+    });
+
+Route::middleware('auth')->group(function() {
+    Route::resource('servers', ServerController::class);
+    Route::resource('servers.keys', KeyController::class);
+});
