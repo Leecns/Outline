@@ -26,7 +26,7 @@
                 </section>
 
                 <section>
-                    <label for="expires_at" class="ps-1 mb-1">{{ __('Expiration time') }}</label>
+                    <label for="expires_at" class="ps-1 mb-1">{{ __('Expiration date') }}</label>
                     <input class="d-block" id="expires_at" type="datetime-local" name="expires_at" value="{{ old('expires_at') }}" min="{{ now()->format('Y-m-d\TH:i') }}">
                     @error('expires_at')<small class="ps-1 error-message">{{ $message }}</small>@enderror
                 </section>
