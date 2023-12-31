@@ -57,8 +57,6 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'admin_password' => env('ADMIN_PASSWORD', 'yoyo'),
-
     'github_url' => env('APP_GITHUB_URL', 'https://github.com/AmRo045/OutlineManager'),
 
     'author_name' => env('APP_AUTHOR_name', 'AmRo045'),

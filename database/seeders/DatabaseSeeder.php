@@ -13,12 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        if (! User::whereUsername('admin')->exists()) {
-            User::create([
-                'name' => 'Administrator',
-                'username' => 'admin',
-                'password' => Hash::make(config('app.admin_password')),
-            ]);
-        }
+
     }
 }
