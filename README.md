@@ -1,5 +1,5 @@
 <p align="center"> 
-    <img src="extra/logo/logo.svg" width="200" alt="Laravel Logo"> 
+    <img src="extra/logo/logo.svg" width="200" alt="Outline Logo"> 
 </p>
 
 <h2 align="center">Outline Admin</h2>
@@ -14,6 +14,11 @@ Outline Manager features +
 -   QR Code for access keys
 
 Feel free to contribute and make this project better!
+
+## Todo
+
+- [ ] Dockerizing the app
+- [ ] Adding setup guide
 
 ## Screenshots
 
