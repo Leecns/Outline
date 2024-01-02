@@ -29,6 +29,7 @@ class CreateAdminPassword extends Command
     {
         if (User::whereUsername('admin')->exists()) {
             $this->error('Admin user already exists.');
+
             return;
         }
 
@@ -37,6 +38,7 @@ class CreateAdminPassword extends Command
 
         if ($password !== $confirmPassword) {
             $this->error('Passwords do not match. Please try again.');
+
             return;
         }
 
