@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+if [ ! -z "$WWWUSER" ]; then
+    usermod -u $WWWUSER sail
+fi
+
+if [ ! -d /.composer ]; then
+    mkdir /.composer
+fi
+
+chmod -R ugo+rw /.composer
+
+composer install
+php artisan key:gen
+php artisan migrate --force
+npm ci && npm run build
+chown -R $(whoami) .
+chmod -R 777 ./bootstrap/cache/
+chmod -R 777 ./storage
+
+if [ $# -gt 0 ]; then
+    exec gosu $WWWUSER "$@"
+else
+    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+fi
