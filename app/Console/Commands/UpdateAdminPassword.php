@@ -6,6 +6,12 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\intro;
+use function Laravel\Prompts\outro;
+use function Laravel\Prompts\password;
+use function Laravel\Prompts\spin;
+
 class UpdateAdminPassword extends Command
 {
     /**
@@ -27,19 +33,21 @@ class UpdateAdminPassword extends Command
      */
     public function handle()
     {
-        $newPassword = $this->secret('Enter new password');
-        $confirmPassword = $this->secret('Confirm new password');
+        intro('Updating admin user password...');
+
+        $newPassword = password(label: 'Enter new password', required: true);
+        $confirmPassword = password(label: 'Confirm new password', required: true);
 
         if ($newPassword !== $confirmPassword) {
-            $this->error('Passwords do not match. Please try again.');
+            error('Passwords do not match. Please try again.');
 
             return;
         }
 
-        User::whereUsername('admin')->update([
+        spin(fn () => User::whereUsername('admin')->update([
             'password' => Hash::make($newPassword),
-        ]);
+        ]), 'Please wait...');
 
-        $this->info('Admin password has been updated successfully.');
+        outro('Admin password has been updated successfully.');
     }
 }
