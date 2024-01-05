@@ -5,7 +5,7 @@
 
 <body data-bs-theme="dark">
 
-<div class="container mt-5">
+<div class="container mt-2 mt-md-5">
     @include('includes.header')
 
     <main>

@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-    <section class="mt-5 px-5">
+    <section class="mt-5 px-1 px-lg-5">
         <header class="mb-3">
             <h2>{{ __('Your Servers') }}</h2>
         </header>
@@ -35,10 +35,11 @@
             </section>
 
         @else
-            <table>
-                <thead>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
                     <tr class="text-uppercase">
-                        <th>{{ __('#') }}</th>
+                        <th class="d-none d-lg-table-cell">{{ __('#') }}</th>
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('Hostname or IP') }}</th>
                         <th>{{ __('Number of Keys') }}</th>
@@ -46,24 +47,24 @@
                         <th>{{ __('Status') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     @forelse($servers as $server)
                         <tr>
-                            <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $server->name }}</td>
-                            <td>{{ $server->hostname_or_ip }}</td>
-                            <td><span class="status status-secondary">{{ $server->keys()->count() }}</span></td>
-                            <td><span class="status status-secondary">{{ format_bytes($server->total_data_usage) }}</span></td>
+                            <td class="d-none d-lg-table-cell">{{ $loop->index + 1 }}</td>
+                            <td><span class="d-inline-block w-max">{{ $server->name }}</span></td>
+                            <td><span class="d-inline-block w-max">{{ $server->hostname_or_ip }}</span></td>
+                            <td><span class="d-inline-block w-max status status-secondary">{{ $server->keys()->count() }}</span></td>
+                            <td><span class="d-inline-block w-max status status-secondary">{{ format_bytes($server->total_data_usage) }}</span></td>
                             <td>
                                 @if ($server->is_available)
-                                    <span class="status status-success">{{ __('Available') }}</span>
+                                    <span class="d-inline-block w-max status status-success">{{ __('Available') }}</span>
                                 @else
-                                    <span class="status status-danger">{{ __('Not Available') }}</span>
+                                    <span class="d-inline-block w-max status status-danger">{{ __('Not Available') }}</span>
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('servers.keys.index', $server->id) }}" class="btn">{{ __('Manage') }}</a>
+                                <a href="{{ route('servers.keys.index', $server->id) }}" class="btn w-max">{{ __('Manage') }}</a>
                             </td>
                         </tr>
                     @empty
@@ -76,8 +77,9 @@
                             </td>
                         </tr>
                     @endforelse
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         @endif
     </section>
 @endsection
