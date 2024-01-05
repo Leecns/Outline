@@ -6,7 +6,7 @@
             @csrf
 
             <label for="password">{{ __('Password') }}</label>
-            <input type="password" class="d-block my-1" id="password" name="password" placeholder="{{ __('Enter your password...') }}" size="32">
+            <input type="password" class="d-block w-max my-1" id="password" name="password" placeholder="{{ __('Enter your password...') }}" size="32" autofocus>
             @error('password') <small class="error-message">{{ $message }}</small> @enderror
 
             <div class="text-end">
