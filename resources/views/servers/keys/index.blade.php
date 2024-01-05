@@ -89,9 +89,9 @@
                     @forelse($keys as $key)
                         <tr data-key="{{ $key->access_url . '#' . rawurlencode($key->name) }}">
                             <td class="d-none d-lg-table-cell">{{ $loop->index + 1 }}</td>
-                            <td><span class="d-inline-block w-max">{{ $key->name }}</span></td>
+                            <td><span class="d-inline-block w-max mx-auto">{{ $key->name }}</span></td>
                             <td>
-                                <div class="w-max d-flex align-items-center gap-1 justify-content-center">
+                                <div class="w-max mx-auto d-flex align-items-center gap-1 justify-content-center">
                                     <span>{{ format_bytes($key->data_usage) }}</span>
                                     <span class="opacity-50">{{ __('of') }}</span>
                                     <span class="d-flex align-items-center">
@@ -103,7 +103,7 @@
                                     </span>
                                 </div>
                             <td>
-                                <div class="w-max d-flex justify-content-center">
+                                <div class="w-max mx-auto d-flex justify-content-center">
                                     @if ($key->expires_at)
                                         @if ($key->is_expired)
                                             <span class="status status-danger">{{ __('Expired') }}</span>
@@ -120,7 +120,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="w-max d-flex gap-2 align-items-center justify-content-center flex-wrap">
+                                <div class="w-max mx-auto d-flex gap-2 align-items-center justify-content-center flex-wrap">
                                     <button class="btn btn-tool" title="{{ __('Show access key') }}" data-dialog-trigger="true" data-dialog="accessKeyModal" data-as-modal="true" onclick="bindAccessKey(this)">
                                         <x-svg.key width="20" height="20" />
                                     </button>
