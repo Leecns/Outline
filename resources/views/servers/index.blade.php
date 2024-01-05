@@ -52,19 +52,19 @@
                     @forelse($servers as $server)
                         <tr>
                             <td class="d-none d-lg-table-cell">{{ $loop->index + 1 }}</td>
-                            <td><span class="d-inline-block w-max">{{ $server->name }}</span></td>
-                            <td><span class="d-inline-block w-max">{{ $server->hostname_or_ip }}</span></td>
-                            <td><span class="d-inline-block w-max status status-secondary">{{ $server->keys()->count() }}</span></td>
-                            <td><span class="d-inline-block w-max status status-secondary">{{ format_bytes($server->total_data_usage) }}</span></td>
+                            <td><span class="d-inline-block w-max mx-auto">{{ $server->name }}</span></td>
+                            <td><span class="d-inline-block w-max mx-auto">{{ $server->hostname_or_ip }}</span></td>
+                            <td><span class="d-inline-block w-max mx-auto status status-secondary">{{ $server->keys()->count() }}</span></td>
+                            <td><span class="d-inline-block w-max mx-auto status status-secondary">{{ format_bytes($server->total_data_usage) }}</span></td>
                             <td>
                                 @if ($server->is_available)
-                                    <span class="d-inline-block w-max status status-success">{{ __('Available') }}</span>
+                                    <span class="d-inline-block w-max mx-auto status status-success">{{ __('Available') }}</span>
                                 @else
-                                    <span class="d-inline-block w-max status status-danger">{{ __('Not Available') }}</span>
+                                    <span class="d-inline-block w-max mx-auto status status-danger">{{ __('Not Available') }}</span>
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('servers.keys.index', $server->id) }}" class="btn w-max">{{ __('Manage') }}</a>
+                                <a href="{{ route('servers.keys.index', $server->id) }}" class="btn w-max mx-auto">{{ __('Manage') }}</a>
                             </td>
                         </tr>
                     @empty
