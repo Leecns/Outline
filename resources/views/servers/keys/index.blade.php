@@ -57,7 +57,7 @@
 
                 <div class="col-12">
                     <span class="opacity-75">{{ __('Management API URL') }}:</span>
-                    <a class="status status-secondary d-flex gap-1 align-items-center" href="{{ $server->api_url }}" target="_blank">
+                    <a class="status status-secondary d-inline-flex gap-1 align-items-center" href="{{ $server->api_url }}" target="_blank">
                         <span>{{ $server->api_url }}</span>
                         <x-svg.open-in-new width="16" height="16" />
                     </a>
