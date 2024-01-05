@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="d-grid justify-content-center align-items-center" style="min-block-size: 60dvh">
+    <section class="d-grid justify-content-center align-items-center" style="min-block-size: 80dvh">
         <form action="{{ route('auth.login.store') }}" method="post">
             @csrf
 

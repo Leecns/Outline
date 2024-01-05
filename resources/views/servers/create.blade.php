@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="mt-5 px-5">
+    <section class="mt-5 px-1 px-lg-5">
         <header>
             <h2>{{ __('Add Outline Server') }}</h2>
         </header>

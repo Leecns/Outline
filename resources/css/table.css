@@ -1,7 +1,10 @@
+.table-wrapper {
+    overflow-x: auto;
+}
+
 table {
     inline-size: 100%;
     max-inline-size: 100%;
-    overflow: auto;
     border-spacing: 0;
     color: var(--table-text);
     border-radius: var(--table-border-radius);

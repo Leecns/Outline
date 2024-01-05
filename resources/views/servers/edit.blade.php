@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="mt-5 px-5">
+    <section class="mt-5 px-1 px-lg-5">
         <header class="d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-2">
                 <a class="btn btn-tool" href="{{ route('servers.keys.index', $server->id) }}">
