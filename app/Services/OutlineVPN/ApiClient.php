@@ -65,9 +65,7 @@ class ApiClient
 
     public function createKey(): ApiResponse
     {
-        $response = $this->httpSession->post('/access-keys', [
-            'method' => config('outline.encryption_method'),
-        ]);
+        $response = $this->httpSession->post('/access-keys');
 
         return $this->createApiResponse($response);
     }
