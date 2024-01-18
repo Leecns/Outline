@@ -14,17 +14,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Access Kay Encryption Method
-    |--------------------------------------------------------------------------
-    |
-    | This configuration specifies which encryption method will be used by Outline VPN.
-    |
-    */
-
-    'encryption_method' => env('OUTLINE_ENCRYPTION_METHOD', 'aes-192-gcm'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Setup Script
     |--------------------------------------------------------------------------
     |
