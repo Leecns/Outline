@@ -49,6 +49,7 @@ body {
     opacity: 0.48;
 }
 
+.disabled,
 :disabled {
     pointer-events: none !important;
     opacity: 0.64 !important;

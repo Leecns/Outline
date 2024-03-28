@@ -37,7 +37,7 @@
 
                 <div class="col-12 col-md-6 mb-1">
                     <span class="opacity-75">{{ __('Number of keys') }}:</span>
-                    <span class="status status-secondary d-inline-block">{{ $keys->count() }}</span>
+                    <span class="status status-secondary d-inline-block">{{ $server->keys_count }}</span>
                 </div>
 
                 <div class="col-12 col-md-6 mb-1">
@@ -161,6 +161,10 @@
                     @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <div class="mt-3 mb-5">
+                {{ $keys->links() }}
             </div>
         </div>
 
