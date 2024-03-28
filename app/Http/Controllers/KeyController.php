@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class KeyController extends Controller
 {
-    public function index(Server $server)
+    public function index(Request $request, Server $server)
     {
         // TODO: sync the existing keys
-        $keys = $server->keys()->latest()->paginate();
+        $keys = $server->keys()->latest()->simplePaginate($request->per_page ?? 25);
+        $server->loadCount('keys');
 
         return view('servers.keys.index', compact('server', 'keys'));
 
