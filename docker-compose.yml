@@ -12,7 +12,8 @@ services:
         volumes:
             - ".:/var/www/html"
         networks:
-            - sail
+            - outline_admin
+        restart: unless-stopped
 networks:
-    sail:
+    outline_admin:
         driver: bridge
