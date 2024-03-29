@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-if [ ! -z "$WWWUSER" ]; then
-    usermod -u $WWWUSER sail
-fi
+export NVM_DIR=~/.nvm && source ~/.nvm/nvm.sh
 
 if [ ! -d /.composer ]; then
     mkdir /.composer
@@ -10,12 +8,12 @@ fi
 
 chmod -R ugo+rw /.composer
 
-composer install
+npm ci && npm run build
+
+composer install --ignore-platform-reqs
 
 php artisan key:gen
 php artisan migrate --force
-
-npm ci && npm run build
 
 chown -R $(whoami) .
 chmod -R 777 ./bootstrap/cache/
@@ -29,8 +27,4 @@ php artisan route:cache
 php artisan view:cache
 php artisan config:cache
 
-if [ $# -gt 0 ]; then
-    exec gosu $WWWUSER "$@"
-else
-    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
-fi
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
