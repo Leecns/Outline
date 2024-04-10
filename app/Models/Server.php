@@ -37,7 +37,7 @@ class Server extends Model
             $api = new ApiClient($server->api_url, $server->api_cert_sha256);
             $serverInfoRequest = $api->server();
 
-            if (! $serverInfoRequest->succeed) {
+            if (!$serverInfoRequest->succeed) {
                 $serverInfoRequest->throw();
             }
 
@@ -51,24 +51,28 @@ class Server extends Model
 
             $nameUpdateRequest = $api->setServerName($server->name);
 
-            if (! $nameUpdateRequest->succeed) {
+            if (!$nameUpdateRequest->succeed) {
                 $nameUpdateRequest->throw();
             }
 
             $hostnameUpdateRequest = $api->setHostNameForNewKeys($server->hostname_for_new_access_keys);
 
-            if (! $hostnameUpdateRequest->succeed) {
+            if (!$hostnameUpdateRequest->succeed) {
                 $hostnameUpdateRequest->throw();
             }
 
             $portUpdateRequest = $api->setPortForNewKeys($server->port_for_new_access_keys);
 
-            if (! $portUpdateRequest->succeed) {
+            if (!$portUpdateRequest->succeed) {
                 $portUpdateRequest->throw();
             }
         });
 
         static::retrieved(function (Server $server) {
+            if (!$server->api_url) {
+                return;
+            }
+
             try {
                 $api = new ApiClient($server->api_url, $server->api_cert_sha256);
                 $maxRetry = 3;
@@ -113,7 +117,7 @@ class Server extends Model
     {
         // Get the server keys
         $keysRequest = $api->keys();
-        if (! $keysRequest->succeed) {
+        if (!$keysRequest->succeed) {
             $keysRequest->throw();
         }
 
