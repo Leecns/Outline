@@ -4,20 +4,20 @@
 
 <h2 align="center">Outline Admin</h2>
 
-Outline Admin is a web interface for the Outline Manager API, providing a simple and user-friendly UI for managing VPN servers.
+Outline Admin is a web interface for the Outline Manager API, providing a simple and user-friendly UI for managing VPN
+servers.
 
-## Features
+## Added Features
 
-Outline Manager features +
-
--   Ability to set expiration date for Access Keys
--   QR Code for access keys
+- Ability to set expiration date for Access Keys
+- QR Code for access keys
 
 Feel free to contribute and make this project better!
 
 ## Installation - Docker
 
-Before proceeding with the installation of Outline Admin, ensure that `docker` and `docker-compose` are installed on your machine. Follow the instructions below:
+Before proceeding with the installation of Outline Admin, ensure that `docker` and `docker-compose` are installed on
+your machine. Follow the instructions below:
 
 ```
 git clone https://github.com/AmRo045/OutlineAdmin.git
@@ -36,30 +36,20 @@ http://{your_server_ip_or_hostname}:9696
 
 ## Admin User
 
-To create an admin user, connect to your container using the following command:
+You can use the `agent.sh` script to manage the admin user. Run it using the following command:
 
 ```
-docker exec -it {container_id_or_name} bash
+sudo bash ./agent.sh
 ```
 
-**Note** To find the container ID or name you can use `docker ps` command.
-
-Then, run this command:
+Once you run the script, you will be presented with the following options:
 
 ```
-php artisan admin:make
-```
-
-You will be prompted to enter a password. After entering the password, you can exit the container shell using the `exit` command.
-
-## Reset Admin Password
-
-If you need to reset the admin user password, use the `admin:password` command as follows:
-
-```
-docker exec -it {container_id_or_name} bash
-php artisan admin:reset
-exit
+Select an option:
+1. Create Admin User
+2. Reset Admin Password
+3. Exit
+>>> 
 ```
 
 ## Screenshots
@@ -71,3 +61,27 @@ exit
 ![Access keys](/extra/screenshots/access-keys.png)
 ![QR Code modal](/extra/screenshots/qr-code.png)
 ![New access key form](/extra/screenshots/new-access-key.png)
+
+## 💗 Donation
+
+If you find this project useful and would like to support its development, you can make a donation.
+
+### USDT
+
+TRC20:
+
+```
+TTCddTETq3KPSf3eLa5cAXYkFqTxj873wU
+```
+
+ERC20:
+
+```
+0xc59275ec279afdbf93c111c2a8c82f62ed6f8528 
+```
+
+### IRR
+
+<a href="http://www.coffeete.ir/AmRo045">
+   <img src="http://www.coffeete.ir/images/buttons/lemonchiffon.png" style="width:260px;" />
+</a>
