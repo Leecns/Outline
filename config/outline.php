@@ -34,7 +34,6 @@ return [
 
     'existing_server_script' => 'sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/AmRo045/OutlineAdmin/main/access.sh)"',
 
-
     /*
     |--------------------------------------------------------------------------
     | Setup Script Output Example
