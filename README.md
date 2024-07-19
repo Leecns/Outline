@@ -74,20 +74,6 @@ If you need to update to the latest version, follow these instructions:
 
 If you find this project useful and would like to support its development, you can make a donation.
 
-### USDT
-
-TRC20:
-
-```
-TTCddTETq3KPSf3eLa5cAXYkFqTxj873wU
-```
-
-ERC20:
-
-```
-0xc59275ec279afdbf93c111c2a8c82f62ed6f8528 
-```
-
 ### TON
 
 ```
