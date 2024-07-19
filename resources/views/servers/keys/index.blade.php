@@ -6,7 +6,7 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="d-flex align-items-center gap-2">
                     <a class="btn btn-tool" href="{{ route('servers.index') }}">
-                        <x-svg.arrow-left width="20" height="20" />
+                        <x-svg.arrow-left width="20" height="20"/>
                     </a>
                     <h2>{{ $server->name }}</h2>
                 </div>
@@ -42,7 +42,8 @@
 
                 <div class="col-12 col-md-6 mb-1">
                     <span class="opacity-75">{{ __('Total usage') }}:</span>
-                    <span class="status status-secondary d-inline-block">{{ format_bytes($server->total_data_usage) }}</span>
+                    <span
+                        class="status status-secondary d-inline-block">{{ format_bytes($server->total_data_usage) }}</span>
                 </div>
 
                 <div class="col-12 col-md-6 mb-1">
@@ -52,14 +53,16 @@
 
                 <div class="col-12 col-md-6 mb-1">
                     <span class="opacity-75">{{ __('Hostname for new access keys') }}</span>
-                    <span class="status status-secondary d-inline-block">{{ $server->hostname_for_new_access_keys }}</span>
+                    <span
+                        class="status status-secondary d-inline-block">{{ $server->hostname_for_new_access_keys }}</span>
                 </div>
 
                 <div class="col-12">
                     <span class="opacity-75">{{ __('Management API URL') }}:</span>
-                    <a class="status status-secondary d-inline-flex gap-1 align-items-center" href="{{ $server->api_url }}" target="_blank">
+                    <a class="status status-secondary d-inline-flex gap-1 align-items-center"
+                       href="{{ $server->api_url }}" target="_blank">
                         <span>{{ $server->api_url }}</span>
-                        <x-svg.open-in-new width="16" height="16" />
+                        <x-svg.open-in-new width="16" height="16"/>
                     </a>
                 </div>
             </section>
@@ -69,9 +72,10 @@
             <div class="d-flex justify-content-between gap-2 align-items-center mb-3">
                 <h2>{{ __('🗝️ Access Keys') }}</h2>
 
-               @if ($server->is_available)
-                    <a href="{{ route('servers.keys.create', $server->id) }}" class="btn btn-primary">{{ __('Create') }}</a>
-               @endif
+                @if ($server->is_available)
+                    <a href="{{ route('servers.keys.create', $server->id) }}"
+                       class="btn btn-primary">{{ __('Create') }}</a>
+                @endif
             </div>
 
             <div class="table-wrapper">
@@ -96,9 +100,9 @@
                                     <span class="opacity-50">{{ __('of') }}</span>
                                     <span class="d-flex align-items-center">
                                         @if ($key->data_limit)
-                                            {{format_bytes($key->data_limit)}}
+                                            {{format_bytes($key->data_limit_in_bytes)}}
                                         @else
-                                            <x-svg.infinity width="24" height="24" />
+                                            <x-svg.infinity width="24" height="24"/>
                                         @endif
                                     </span>
                                 </div>
@@ -108,41 +112,54 @@
                                         @if ($key->is_expired)
                                             <span class="status status-danger">{{ __('Expired') }}</span>
                                         @else
-                                            <span class="status status-warning countdown" data-expired-label="{{ __('Expired') }}" data-value="{{ $key->expires_at->timestamp }}" title="{{ __('Until :datetime', ['datetime' => $key->expires_at]) }}">
+                                            <span class="status status-warning countdown"
+                                                  data-expired-label="{{ __('Expired') }}"
+                                                  data-value="{{ $key->expires_at->timestamp }}"
+                                                  title="{{ __('Until :datetime', ['datetime' => $key->expires_at]) }}">
                                                 {{ format_as_duration(now(), $key->expires_at) }}
                                             </span>
                                         @endif
                                     @else
-                                        <span class="status status-success d-flex align-items-center" title="{{ __('Forever') }}">
-                                            <x-svg.infinity width="24" height="24" />
+                                        <span class="status status-success d-flex align-items-center"
+                                              title="{{ __('Forever') }}">
+                                            <x-svg.infinity width="24" height="24"/>
                                         </span>
                                     @endif
                                 </div>
                             </td>
                             <td>
-                                <div class="w-max mx-auto d-flex gap-2 align-items-center justify-content-center flex-wrap">
-                                    <button class="btn btn-tool" title="{{ __('Show access key') }}" data-dialog-trigger="true" data-dialog="accessKeyModal" data-as-modal="true" onclick="bindAccessKey(this)">
-                                        <x-svg.key width="20" height="20" />
+                                <div
+                                    class="w-max mx-auto d-flex gap-2 align-items-center justify-content-center flex-wrap">
+                                    <button class="btn btn-tool" title="{{ __('Show access key') }}"
+                                            data-dialog-trigger="true" data-dialog="accessKeyModal" data-as-modal="true"
+                                            onclick="bindAccessKey(this)">
+                                        <x-svg.key width="20" height="20"/>
                                     </button>
 
-                                    <button class="btn btn-tool" title="{{ __('Show QR code') }}" data-dialog-trigger="true" data-dialog="qrCodeModal" data-as-modal="true" onclick="createQRCode(this)">
-                                        <x-svg.qr-code width="20" height="20" />
+                                    <button class="btn btn-tool" title="{{ __('Show QR code') }}"
+                                            data-dialog-trigger="true" data-dialog="qrCodeModal" data-as-modal="true"
+                                            onclick="createQRCode(this)">
+                                        <x-svg.qr-code width="20" height="20"/>
                                     </button>
 
-                                    <button class="btn btn-tool" title="{{ __('Copy access key to clipboard') }}" onclick="copyToClipboard('{{ $key->access_url . '#' . rawurlencode($key->name) }}', '{{ __('Copied 😎') }}')">
-                                        <x-svg.copy width="20" height="20" />
+                                    <button class="btn btn-tool" title="{{ __('Copy access key to clipboard') }}"
+                                            onclick="copyToClipboard('{{ $key->access_url . '#' . rawurlencode($key->name) }}', '{{ __('Copied 😎') }}')">
+                                        <x-svg.copy width="20" height="20"/>
                                     </button>
 
                                     @if ($server->is_available)
-                                        <a href="{{ route('servers.keys.edit', [$server->id, $key->id]) }}" class="btn btn-tool" title="{{ __('Edit the key') }}">
-                                            <x-svg.edit width="20" height="20" />
+                                        <a href="{{ route('servers.keys.edit', [$server->id, $key->id]) }}"
+                                           class="btn btn-tool" title="{{ __('Edit the key') }}">
+                                            <x-svg.edit width="20" height="20"/>
                                         </a>
-                                        <form method="post" action="{{ route('servers.keys.destroy', [$server->id, $key->id]) }}" onsubmit="return confirm('{{ __('Are you sure?') }}')">
+                                        <form method="post"
+                                              action="{{ route('servers.keys.destroy', [$server->id, $key->id]) }}"
+                                              onsubmit="return confirm('{{ __('Are you sure?') }}')">
                                             @csrf
                                             @method('DELETE')
 
                                             <button class="btn btn-tool btn-danger" title="{{ __('Remove the key') }}">
-                                                <x-svg.delete width="20" height="20" />
+                                                <x-svg.delete width="20" height="20"/>
                                             </button>
                                         </form>
                                     @endif

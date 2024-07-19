@@ -1,4 +1,4 @@
-input, textarea {
+input, textarea, select {
     --bg: transparent;
     --border: var(--surface-2);
     --text: inherit;
@@ -11,10 +11,10 @@ input, textarea {
     padding: 0.54rem 0.86rem;
 }
 
-input:hover, textarea:hover {
+input:hover, textarea:hover, select:hover {
     --border: var(--surface-3);
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
     --bg: var(--surface-2);
 }

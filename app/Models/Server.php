@@ -37,7 +37,7 @@ class Server extends Model
             $api = new ApiClient($server->api_url, $server->api_cert_sha256);
             $serverInfoRequest = $api->server();
 
-            if (! $serverInfoRequest->succeed) {
+            if (!$serverInfoRequest->succeed) {
                 $serverInfoRequest->throw();
             }
 
@@ -51,25 +51,25 @@ class Server extends Model
 
             $nameUpdateRequest = $api->setServerName($server->name);
 
-            if (! $nameUpdateRequest->succeed) {
+            if (!$nameUpdateRequest->succeed) {
                 $nameUpdateRequest->throw();
             }
 
             $hostnameUpdateRequest = $api->setHostNameForNewKeys($server->hostname_for_new_access_keys);
 
-            if (! $hostnameUpdateRequest->succeed) {
+            if (!$hostnameUpdateRequest->succeed) {
                 $hostnameUpdateRequest->throw();
             }
 
             $portUpdateRequest = $api->setPortForNewKeys($server->port_for_new_access_keys);
 
-            if (! $portUpdateRequest->succeed) {
+            if (!$portUpdateRequest->succeed) {
                 $portUpdateRequest->throw();
             }
         });
 
         static::retrieved(function (Server $server) {
-            if (! $server->api_url) {
+            if (!$server->api_url) {
                 return;
             }
 
@@ -117,20 +117,21 @@ class Server extends Model
     {
         // Get the server keys
         $keysRequest = $api->keys();
-        if (! $keysRequest->succeed) {
+        if (!$keysRequest->succeed) {
             $keysRequest->throw();
         }
 
-        $serverKeys = collect($keysRequest->result->accessKeys)->map(fn ($serverKey) => ApiAccessKey::fromObject($serverKey));
+        $serverKeys = collect($keysRequest->result->accessKeys)->map(fn($serverKey
+        ) => ApiAccessKey::fromObject($serverKey));
 
         // Get the keys in local db
         $localKeys = $this->keys;
 
         // Create missing keys & update existing keys
         $serverKeys->each(function ($serverKey) use ($localKeys, $metrics) {
-            if ($localKey = $localKeys->first(fn ($localKey) => $localKey->api_id === $serverKey->id)) {
+            if ($localKey = $localKeys->first(fn($localKey) => $localKey->api_id === $serverKey->id)) {
                 $localKey->name = $serverKey->name;
-                $localKey->data_limit = $serverKey->dataLimitInBytes;
+                $localKey->data_limit = $localKey->castDataLimitToUnit($serverKey->dataLimitInBytes);
 
                 if (isset($metrics->{$serverKey->id})) {
                     $localKey->data_usage = $metrics->{$serverKey->id};
@@ -146,14 +147,14 @@ class Server extends Model
                 $newLocalKey->method = $serverKey->method;
                 $newLocalKey->password = $serverKey->password;
                 $newLocalKey->access_url = $serverKey->accessUrl;
-                $newLocalKey->data_limit = $serverKey->dataLimitInBytes;
+                $newLocalKey->data_limit = $newLocalKey->castDataLimitToUnit($serverKey->dataLimitInBytes);
                 $newLocalKey->saveQuietly();
             }
         });
 
         // Remove missing keys
         $localKeys->each(function ($localKey) use ($serverKeys) {
-            if ($serverKeys->contains(fn ($serverKey) => $serverKey->id === $localKey->api_id)) {
+            if ($serverKeys->contains(fn($serverKey) => $serverKey->id === $localKey->api_id)) {
                 return;
             }
 

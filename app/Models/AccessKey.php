@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\DataLimitUnit;
 use App\Services\OutlineVPN\ApiAccessKey;
 use App\Services\OutlineVPN\ApiClient;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -18,6 +19,7 @@ class AccessKey extends Model
         'method',
         'access_url',
         'port',
+        'data_limit_unit',
         'data_limit',
         'data_usage',
         'expires_at',
@@ -25,6 +27,7 @@ class AccessKey extends Model
 
     protected $casts = [
         'expires_at' => 'datetime',
+        'data_limit_unit' => DataLimitUnit::class
     ];
 
     protected static function booted(): void
@@ -33,21 +36,21 @@ class AccessKey extends Model
             $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $newKeyRequest = $api->createKey();
 
-            if (! $newKeyRequest->succeed) {
+            if (!$newKeyRequest->succeed) {
                 $newKeyRequest->throw();
             }
 
             $outlineAccessKey = ApiAccessKey::fromObject($newKeyRequest->result);
             $renameRequest = $api->renameKey($outlineAccessKey->id, $accessKey->name);
 
-            if (! $renameRequest->succeed) {
+            if (!$renameRequest->succeed) {
                 $renameRequest->throw();
             }
 
             if ($accessKey->data_limit) {
-                $dataLimitRequest = $api->setDataLimitForKey($outlineAccessKey->id, $accessKey->data_limit);
+                $dataLimitRequest = $api->setDataLimitForKey($outlineAccessKey->id, $accessKey->data_limit_in_bytes);
 
-                if (! $dataLimitRequest->succeed) {
+                if (!$dataLimitRequest->succeed) {
                     $dataLimitRequest->throw();
                 }
             }
@@ -63,15 +66,15 @@ class AccessKey extends Model
             $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $renameRequest = $api->renameKey($accessKey->api_id, $accessKey->name);
 
-            if (! $renameRequest->succeed) {
+            if (!$renameRequest->succeed) {
                 $renameRequest->throw();
             }
 
             $dataLimitRequest = $accessKey->data_limit ?
-                $api->setDataLimitForKey($accessKey->api_id, $accessKey->data_limit) :
+                $api->setDataLimitForKey($accessKey->api_id, $accessKey->data_limit_in_bytes) :
                 $api->removeDataLimitForKey($accessKey->api_id);
 
-            if (! $dataLimitRequest->succeed) {
+            if (!$dataLimitRequest->succeed) {
                 $dataLimitRequest->throw();
             }
         });
@@ -80,17 +83,10 @@ class AccessKey extends Model
             $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $deleteKeyRequest = $api->deleteKey($accessKey->api_id);
 
-            if (! $deleteKeyRequest->succeed) {
+            if (!$deleteKeyRequest->succeed) {
                 $deleteKeyRequest->throw();
             }
         });
-    }
-
-    protected function isExpired(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => now()->gt($this->expires_at)
-        );
     }
 
     public function disable(): void
@@ -100,6 +96,7 @@ class AccessKey extends Model
         $api->removeDataLimitForKey($this->api_id);
         $api->setDataLimitForKey($this->api_id, $limit);
 
+        $this->data_limit_unit = 'b';
         $this->data_limit = $limit;
         $this->saveQuietly();
     }
@@ -107,5 +104,44 @@ class AccessKey extends Model
     public function server(): BelongsTo
     {
         return $this->belongsTo(Server::class);
+    }
+
+    public function castDataLimitToUnit(int|null $limitInBytes): int|null
+    {
+        if ($limitInBytes) {
+            return $limitInBytes / $this->getUnitFactor();
+        }
+
+        return null;
+    }
+
+    protected function dataLimitInBytes(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->data_limit * $this->getUnitFactor()
+        );
+    }
+
+    protected function isExpired(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => now()->gt($this->expires_at)
+        );
+    }
+
+    protected function getUnitFactor(): int
+    {
+        $map = [
+            DataLimitUnit::Bytes->value => 1,
+            DataLimitUnit::KB->value => 1024,
+            DataLimitUnit::MB->value => 1000 * 1000,
+            DataLimitUnit::GB->value => 1000 * 1000 * 1000,
+        ];
+
+        if ($this->data_limit_unit) {
+            return $map[$this->data_limit_unit->value];
+        }
+
+        return 1;
     }
 }

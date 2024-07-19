@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DataLimitUnit;
 use App\Models\AccessKey;
 use App\Models\Server;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class KeyController extends Controller
 {
@@ -19,41 +21,43 @@ class KeyController extends Controller
 
     }
 
+    public function store(Request $request, Server $server)
+    {
+        if (!$server->is_available) {
+            return redirect()->route('servers.index');
+        }
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:64',
+            'data_limit_unit' => [
+                'nullable', Rule::enum(DataLimitUnit::class), Rule::requiredIf(intval($request->data_limit) > 0)
+            ],
+            'data_limit' => [
+                'nullable', 'numeric', 'min:0', 'max:1000000000000000000',
+                Rule::requiredIf(in_array($request->data_limit_unit, array_column(DataLimitUnit::cases(), 'value')))
+            ],
+            'expires_at' => 'nullable|date_format:Y-m-d\TH:i',
+        ]);
+
+        DB::transaction(function () use ($request, $server, $validatedData) {
+            $server->keys()->create($validatedData);
+        });
+
+        return redirect()->route('servers.keys.index', $server->id);
+    }
+
     public function create(Server $server)
     {
-        if (! $server->is_available) {
+        if (!$server->is_available) {
             return redirect()->route('servers.index');
         }
 
         return view('servers.keys.create', compact('server'));
     }
 
-    public function store(Request $request, Server $server)
-    {
-        if (! $server->is_available) {
-            return redirect()->route('servers.index');
-        }
-
-        $request->validate([
-            'name' => 'required|string|max:64',
-            'data_limit' => 'nullable|numeric|min:0|max:1000000000000000000',
-            'expires_at' => 'nullable|date_format:Y-m-d\TH:i',
-        ]);
-
-        DB::transaction(function () use ($request, $server) {
-            $server->keys()->create([
-                'name' => $request->name,
-                'data_limit' => $request->data_limit,
-                'expires_at' => $request->expires_at,
-            ]);
-        });
-
-        return redirect()->route('servers.keys.index', $server->id);
-    }
-
     public function edit(Server $server, AccessKey $key)
     {
-        if (! $server->is_available) {
+        if (!$server->is_available) {
             return redirect()->route('servers.index');
         }
 
@@ -62,22 +66,24 @@ class KeyController extends Controller
 
     public function update(Request $request, Server $server, AccessKey $key)
     {
-        if (! $server->is_available) {
+        if (!$server->is_available) {
             return redirect()->route('servers.index');
         }
 
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:64',
-            'data_limit' => 'nullable|numeric|min:0|max:1000000000000000000',
+            'data_limit_unit' => [
+                'nullable', Rule::enum(DataLimitUnit::class), Rule::requiredIf(intval($request->data_limit) > 0)
+            ],
+            'data_limit' => [
+                'nullable', 'numeric', 'min:0', 'max:1000000000000000000',
+                Rule::requiredIf(in_array($request->data_limit_unit, array_column(DataLimitUnit::cases(), 'value')))
+            ],
             'expires_at' => 'nullable|date_format:Y-m-d\TH:i',
         ]);
 
-        DB::transaction(function () use ($request, $key) {
-            $key->update([
-                'name' => $request->name,
-                'data_limit' => $request->data_limit,
-                'expires_at' => $request->expires_at,
-            ]);
+        DB::transaction(function () use ($request, $key, $validatedData) {
+            $key->update($validatedData);
         });
 
         return redirect()->route('servers.keys.index', $server->id);
@@ -85,7 +91,7 @@ class KeyController extends Controller
 
     public function destroy(Server $server, AccessKey $key)
     {
-        if (! $server->is_available) {
+        if (!$server->is_available) {
             return redirect()->route('servers.index');
         }
 

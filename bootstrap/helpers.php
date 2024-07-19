@@ -3,7 +3,7 @@
 use App\Services\OutlineVPN\ApiClient;
 use Carbon\Carbon;
 
-if (! function_exists('get_server_usage_metrics')) {
+if (!function_exists('get_server_usage_metrics')) {
     function get_server_usage_metrics(ApiClient $api, int $serverId): object
     {
         return cache()->remember("server-$serverId-metrics", now()->addMinute(), function () use ($api) {
@@ -14,14 +14,14 @@ if (! function_exists('get_server_usage_metrics')) {
     }
 }
 
-if (! function_exists('format_bytes')) {
+if (!function_exists('format_bytes')) {
     function format_bytes(int $bytes, bool $asArray = false): string|array
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
         $unitIndex = 0;
 
-        while ($bytes >= 1024) {
-            $bytes /= 1024;
+        while ($bytes >= 1000) {
+            $bytes /= 1000;
             $unitIndex++;
         }
 
@@ -38,7 +38,7 @@ if (! function_exists('format_bytes')) {
     }
 }
 
-if (! function_exists('format_as_duration')) {
+if (!function_exists('format_as_duration')) {
     function format_as_duration(Carbon $start, Carbon $end): string
     {
         $duration = $end->diff($start);
