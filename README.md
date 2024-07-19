@@ -88,6 +88,12 @@ ERC20:
 0xc59275ec279afdbf93c111c2a8c82f62ed6f8528 
 ```
 
+### TON
+
+```
+UQByW0gL9r89D4oFagC3ZRCEctIoh6XjHu7zv5xU2wcPVATT
+```
+
 ### IRR
 
 <a href="http://www.coffeete.ir/AmRo045">
