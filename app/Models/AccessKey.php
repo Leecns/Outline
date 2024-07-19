@@ -27,7 +27,7 @@ class AccessKey extends Model
 
     protected $casts = [
         'expires_at' => 'datetime',
-        'data_limit_unit' => DataLimitUnit::class
+        'data_limit_unit' => DataLimitUnit::class,
     ];
 
     protected static function booted(): void
@@ -36,21 +36,21 @@ class AccessKey extends Model
             $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $newKeyRequest = $api->createKey();
 
-            if (!$newKeyRequest->succeed) {
+            if (! $newKeyRequest->succeed) {
                 $newKeyRequest->throw();
             }
 
             $outlineAccessKey = ApiAccessKey::fromObject($newKeyRequest->result);
             $renameRequest = $api->renameKey($outlineAccessKey->id, $accessKey->name);
 
-            if (!$renameRequest->succeed) {
+            if (! $renameRequest->succeed) {
                 $renameRequest->throw();
             }
 
             if ($accessKey->data_limit) {
                 $dataLimitRequest = $api->setDataLimitForKey($outlineAccessKey->id, $accessKey->data_limit_in_bytes);
 
-                if (!$dataLimitRequest->succeed) {
+                if (! $dataLimitRequest->succeed) {
                     $dataLimitRequest->throw();
                 }
             }
@@ -66,7 +66,7 @@ class AccessKey extends Model
             $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $renameRequest = $api->renameKey($accessKey->api_id, $accessKey->name);
 
-            if (!$renameRequest->succeed) {
+            if (! $renameRequest->succeed) {
                 $renameRequest->throw();
             }
 
@@ -74,7 +74,7 @@ class AccessKey extends Model
                 $api->setDataLimitForKey($accessKey->api_id, $accessKey->data_limit_in_bytes) :
                 $api->removeDataLimitForKey($accessKey->api_id);
 
-            if (!$dataLimitRequest->succeed) {
+            if (! $dataLimitRequest->succeed) {
                 $dataLimitRequest->throw();
             }
         });
@@ -83,7 +83,7 @@ class AccessKey extends Model
             $api = new ApiClient($accessKey->server->api_url, $accessKey->server->api_cert_sha256);
             $deleteKeyRequest = $api->deleteKey($accessKey->api_id);
 
-            if (!$deleteKeyRequest->succeed) {
+            if (! $deleteKeyRequest->succeed) {
                 $deleteKeyRequest->throw();
             }
         });
@@ -106,7 +106,7 @@ class AccessKey extends Model
         return $this->belongsTo(Server::class);
     }
 
-    public function castDataLimitToUnit(int|null $limitInBytes): int|null
+    public function castDataLimitToUnit(?int $limitInBytes): ?int
     {
         if ($limitInBytes) {
             return $limitInBytes / $this->getUnitFactor();
@@ -118,14 +118,14 @@ class AccessKey extends Model
     protected function dataLimitInBytes(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->data_limit * $this->getUnitFactor()
+            get: fn () => $this->data_limit * $this->getUnitFactor()
         );
     }
 
     protected function isExpired(): Attribute
     {
         return Attribute::make(
-            get: fn() => now()->gt($this->expires_at)
+            get: fn () => now()->gt($this->expires_at)
         );
     }
 
