@@ -10,23 +10,25 @@
             <section>
                 <h4 class="mt-1">Follow the instructions below</h4>
                 <p>These steps will help you install Outline on a Linux server.</p>
+                <p>Log into your server, and run this command.</p>
             </section>
 
             <section>
-                <h3>{{ __('New Server') }}</h3>
-                <section>
-                    <div>Log into your server, and run this command.</div>
-                    <div class="mt-2"><code>{{ config('outline.setup_script') }}</code></div>
-                </section>
+                <h3 class="mt-2">{{ __('New Server') }}</h3>
+                <div class="mt-2"><code>{{ config('outline.setup_script') }}</code></div>
 
-                <section class="mt-3">
+
+                <h3 class="mt-4">{{ __('Existing Server') }}</h3>
+                <div class="mt-2"><code>{{ config('outline.existing_server_script') }}</code></div>
+
+                <section class="mt-4">
                     <div>Paste your installation output here.</div>
                     <form action="{{ route('servers.store') }}" method="post">
                         @csrf
 
                         <section>
                             <input
-                                class="d-block w-75"
+                                class="d-block w-100"
                                 value="{{ old('api_url_and_cert_sha256') }}"
                                 name="api_url_and_cert_sha256"
                                 placeholder="{{ config('outline.setup_script_output_example') }}"
@@ -45,6 +47,5 @@
             </section>
         </section>
     </section>
-
 
 @endsection

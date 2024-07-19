@@ -25,6 +25,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Existing Server Script
+    |--------------------------------------------------------------------------
+    |
+    | This script will be used to access the API URL of an existing Outline VPN server.
+    |
+    */
+
+    'existing_server_script' => 'sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/AmRo045/OutlineAdmin/main/access.sh)"',
+
+
+    /*
+    |--------------------------------------------------------------------------
     | Setup Script Output Example
     |--------------------------------------------------------------------------
     |
