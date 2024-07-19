@@ -9,7 +9,7 @@ dialog[open] {
     animation: fade-in 0.64s ease normal;
 }
 
-@keyframes fade-in{
+@keyframes fade-in {
     from {
         opacity: 0;
     }
@@ -20,6 +20,5 @@ dialog[open] {
 
 
 ::backdrop {
-    background-color: var(--primary-brush-1);
     backdrop-filter: blur(12px) brightness(64%);
 }
