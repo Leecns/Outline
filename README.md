@@ -52,6 +52,14 @@ Select an option:
 >>> 
 ```
 
+## Update
+
+If you need to update to the latest version, follow these instructions:
+
+1. Navigate to the project root directory.
+2. Run `git pull`.
+3. Restart the Docker container.
+
 ## Screenshots
 
 ![Login](/extra/screenshots/login.png)
