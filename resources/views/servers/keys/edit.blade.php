@@ -33,7 +33,6 @@
                         <div>
                             <label for="data_limit_unit" class="ps-1 mb-1">{{ __('Unit') }}</label>
                             <select class="d-block" id="data_limit_unit" name="data_limit_unit">
-                                <option value="" selected>{{ __('None') }}</option>
                                 @foreach(DataLimitUnit::cases() as $unit)
                                     <option
                                         value="{{ $unit->value }}" @selected(old('data_limit_unit', $key->data_limit_unit->value) == $unit->value)>{{ __($unit->name) }}</option>

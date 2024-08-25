@@ -23,19 +23,14 @@ class KeyController extends Controller
 
     public function store(Request $request, Server $server)
     {
-        if (! $server->is_available) {
+        if (!$server->is_available) {
             return redirect()->route('servers.index');
         }
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:64',
-            'data_limit_unit' => [
-                'nullable', Rule::enum(DataLimitUnit::class), Rule::requiredIf(intval($request->data_limit) > 0),
-            ],
-            'data_limit' => [
-                'nullable', 'numeric', 'min:0', 'max:1000000000000000000',
-                Rule::requiredIf(in_array($request->data_limit_unit, array_column(DataLimitUnit::cases(), 'value'))),
-            ],
+            'data_limit_unit' => ['required', Rule::enum(DataLimitUnit::class)],
+            'data_limit' => 'nullable|numeric|min:0|max:1000000000000000000',
             'expires_at' => 'nullable|date_format:Y-m-d\TH:i',
         ]);
 
@@ -48,7 +43,7 @@ class KeyController extends Controller
 
     public function create(Server $server)
     {
-        if (! $server->is_available) {
+        if (!$server->is_available) {
             return redirect()->route('servers.index');
         }
 
@@ -57,7 +52,7 @@ class KeyController extends Controller
 
     public function edit(Server $server, AccessKey $key)
     {
-        if (! $server->is_available) {
+        if (!$server->is_available) {
             return redirect()->route('servers.index');
         }
 
@@ -66,19 +61,14 @@ class KeyController extends Controller
 
     public function update(Request $request, Server $server, AccessKey $key)
     {
-        if (! $server->is_available) {
+        if (!$server->is_available) {
             return redirect()->route('servers.index');
         }
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:64',
-            'data_limit_unit' => [
-                'nullable', Rule::enum(DataLimitUnit::class), Rule::requiredIf(intval($request->data_limit) > 0),
-            ],
-            'data_limit' => [
-                'nullable', 'numeric', 'min:0', 'max:1000000000000000000',
-                Rule::requiredIf(in_array($request->data_limit_unit, array_column(DataLimitUnit::cases(), 'value'))),
-            ],
+            'data_limit_unit' => ['required', Rule::enum(DataLimitUnit::class)],
+            'data_limit' => 'nullable|numeric|min:0|max:1000000000000000000',
             'expires_at' => 'nullable|date_format:Y-m-d\TH:i',
         ]);
 
@@ -91,7 +81,7 @@ class KeyController extends Controller
 
     public function destroy(Server $server, AccessKey $key)
     {
-        if (! $server->is_available) {
+        if (!$server->is_available) {
             return redirect()->route('servers.index');
         }
 
