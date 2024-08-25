@@ -23,7 +23,7 @@ class KeyController extends Controller
 
     public function store(Request $request, Server $server)
     {
-        if (!$server->is_available) {
+        if (! $server->is_available) {
             return redirect()->route('servers.index');
         }
 
@@ -43,7 +43,7 @@ class KeyController extends Controller
 
     public function create(Server $server)
     {
-        if (!$server->is_available) {
+        if (! $server->is_available) {
             return redirect()->route('servers.index');
         }
 
@@ -52,7 +52,7 @@ class KeyController extends Controller
 
     public function edit(Server $server, AccessKey $key)
     {
-        if (!$server->is_available) {
+        if (! $server->is_available) {
             return redirect()->route('servers.index');
         }
 
@@ -61,7 +61,7 @@ class KeyController extends Controller
 
     public function update(Request $request, Server $server, AccessKey $key)
     {
-        if (!$server->is_available) {
+        if (! $server->is_available) {
             return redirect()->route('servers.index');
         }
 
@@ -81,7 +81,7 @@ class KeyController extends Controller
 
     public function destroy(Server $server, AccessKey $key)
     {
-        if (!$server->is_available) {
+        if (! $server->is_available) {
             return redirect()->route('servers.index');
         }
 
