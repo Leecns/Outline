@@ -81,7 +81,7 @@ class ApiClient
 
     public function deleteKey(int $id): ApiResponse
     {
-        $response = $this->httpSession->delete("/access-keys/${id}");
+        $response = $this->httpSession->delete("/access-keys/{$id}");
 
         return $this->createApiResponse($response);
     }
@@ -141,6 +141,7 @@ class ApiClient
             ApiResponse::unauthorized();
         }
 
-        return ApiResponse::error(statusCode: $statusCode, message: $result->message ?? null, errors: $result->errors ?? []);
+        return ApiResponse::error(statusCode: $statusCode, message: $result->message ?? null,
+            errors: $result->errors ?? []);
     }
 }
